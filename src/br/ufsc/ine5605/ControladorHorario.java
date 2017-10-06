@@ -6,39 +6,63 @@ import java.util.ArrayList;
 public class ControladorHorario {
     private ArrayList<Horario> horariosAcesso;
     private TelaHorario tela;
+    private static ControladorHorario instancia;
      
 
-    public ControladorHorario() {
+    private ControladorHorario() {
         horariosAcesso = new ArrayList<>();
         tela = new TelaHorario();
+    }
+    public static ControladorHorario getInstance(){
+    	if(instancia == null){
+    		instancia = new ControladorHorario();
+    	}
+    	return instancia;
     }
      
    //TODO
     //acertar a logica do laco
-    public void inicia(ICargo cargo) {
+    public void inicia() {
+    	ArrayList<Horario> horariosCargo = new ArrayList<>();
     	if(horariosAcesso.isEmpty()){
-    		cadastrarHorario();
-    	}else{
+    		horariosCargo.add(cadastrarHorario());
+    	} else {
     		int opcao = tela.mostraLista(horariosAcesso);
     		if(opcao == horariosAcesso.size()+1) {
-    			cadastrarHorario();
-    		}else{
-    			cargo.AdicionarHorarioPermitido(horariosAcesso.get(opcao-1));
+    			horariosCargo.add(cadastrarHorario());
+    		} else {
+    			horariosCargo.add(horariosAcesso.get(opcao-1));
     		}
     	}
+    	int opcao;
+    	do{
+    		opcao = tela.mostraOpcoes();
+    		if(opcao != 2){
+    			opcao = tela.mostraLista(horariosAcesso);
+        		if(opcao == horariosAcesso.size()+1) {
+        			horariosCargo.add(cadastrarHorario());
+        		} else {
+        			horariosCargo.add(horariosAcesso.get(opcao-1));
+        		}
+    		} else {
+    			break;
+    		}
+    	}while(true);
 
     }
-
-    public void cadastrarHorario() {
+    //TODO
+    //string no controlador
+    private Horario cadastrarHorario() throws Exception {
     	String inicio = tela.perguntaInicio();
         Hora horarioInicio = new Hora(Integer.parseInt(inicio.substring(0,2)), Integer.parseInt(inicio.substring(3)));
         String fim = tela.perguntaFim();
         Hora horarioFim = new Hora(Integer.parseInt(fim.substring(0,2)), Integer.parseInt(fim.substring(3)));
         if(possuiHorario(horarioInicio, horarioFim)){
-        	tela.mostrarAviso("Horário já existente");
+        	throw new Exception("Horário já existente.");
         }else{
         	Horario novo = new Horario(horarioInicio, horarioFim);
         	horariosAcesso.add(novo);
+        	return novo;
         }
         
     }
