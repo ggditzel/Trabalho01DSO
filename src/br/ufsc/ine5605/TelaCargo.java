@@ -13,7 +13,7 @@ public class TelaCargo {
 	private ArrayList<Horario> horariosPermitidos = new ArrayList<Horario>();
 	private boolean respostaOK = false;
 
-	Scanner sc = new Scanner(System.in);
+	private Scanner sc = new Scanner(System.in);
 
 	/**
 	 * Solicita via Scanner os dados necessarios para o cadastro de um novo usuario, retornando as informacoes
@@ -79,7 +79,7 @@ public class TelaCargo {
 				try {
 					System.out.println("Deseja cadastrar horario agora (s/n)? Obs: podera ser alterado posteriormente");
 					if (verificaSN(sc.nextLine())) {
-						//incluirHorario();
+						horariosPermitidos = ControladorHorario.getInstance().iniciaCadastro();
 					}
 					respostaOK = true;
 				}

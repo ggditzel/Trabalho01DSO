@@ -22,7 +22,7 @@ public class ControladorHorario {
      
    //TODO
     //acertar a logica do laco
-    public void inicia() {
+    public ArrayList<Horario> iniciaCadastro() throws Exception{
     	ArrayList<Horario> horariosCargo = new ArrayList<>();
     	if(horariosAcesso.isEmpty()){
     		horariosCargo.add(cadastrarHorario());
@@ -48,6 +48,7 @@ public class ControladorHorario {
     			break;
     		}
     	}while(true);
+    	return horariosCargo;
 
     }
     //TODO
