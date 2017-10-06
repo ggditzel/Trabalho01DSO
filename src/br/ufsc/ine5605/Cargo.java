@@ -63,7 +63,7 @@ public class Cargo implements ICargo{
 	
 	public String RemoverHorarioPermitido(Horario horario) {
 		for (Horario h : horariosPermitidos){
-			if (h.getHoraInicial().equals(horario.getHoraInicial()) && h.getHoraFinal().equals(horario.getHoraFinal())){
+			if (h.getInicio().equals(horario.getInicio()) && h.getFim().equals(horario.getFim())){
 				horariosPermitidos.remove(horario);
 				return "Horario removido com sucesso";				
 			}

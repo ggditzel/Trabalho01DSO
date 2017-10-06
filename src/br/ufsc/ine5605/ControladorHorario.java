@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 
 public class ControladorHorario {
-    private ArrayList<IntervaloHorario> horariosAcesso;
+    private ArrayList<Horario> horariosAcesso;
     private TelaHorario tela;
      
 
@@ -23,7 +23,7 @@ public class ControladorHorario {
     		if(opcao == horariosAcesso.size()+1) {
     			cadastrarHorario();
     		}else{
-    			cargo.insereHorario(horariosAcesso.get(opcao-1));
+    			cargo.AdicionarHorarioPermitido(horariosAcesso.get(opcao-1));
     		}
     	}
 
@@ -31,20 +31,20 @@ public class ControladorHorario {
 
     public void cadastrarHorario() {
     	String inicio = tela.perguntaInicio();
-        Horario horarioInicio = new Horario(Integer.parseInt(inicio.substring(0,2)), Integer.parseInt(inicio.substring(3)));
+        Hora horarioInicio = new Hora(Integer.parseInt(inicio.substring(0,2)), Integer.parseInt(inicio.substring(3)));
         String fim = tela.perguntaFim();
-        Horario horarioFim = new Horario(Integer.parseInt(fim.substring(0,2)), Integer.parseInt(fim.substring(3)));
+        Hora horarioFim = new Hora(Integer.parseInt(fim.substring(0,2)), Integer.parseInt(fim.substring(3)));
         if(possuiHorario(horarioInicio, horarioFim)){
         	tela.mostrarAviso("Horário já existente");
         }else{
-        	IntervaloHorario novo = new IntervaloHorario(horarioInicio, horarioFim);
+        	Horario novo = new Horario(horarioInicio, horarioFim);
         	horariosAcesso.add(novo);
         }
         
     }
 
-    private boolean possuiHorario(Horario inicio, Horario fim) {
-    	for(IntervaloHorario i: horariosAcesso) {
+    private boolean possuiHorario(Hora inicio, Hora fim) {
+    	for(Horario i: horariosAcesso) {
     		if(i.getInicio().toString().equals(inicio.toString()) && i.getFim().toString().equals(fim.toString())){
     			return true;
     		}

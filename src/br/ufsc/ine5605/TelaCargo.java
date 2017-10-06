@@ -79,7 +79,7 @@ public class TelaCargo {
 				try {
 					System.out.println("Deseja cadastrar horario agora (s/n)? Obs: podera ser alterado posteriormente");
 					if (verificaSN(sc.nextLine())) {
-						incluirHorario();
+						//incluirHorario();
 					}
 					respostaOK = true;
 				}
@@ -126,14 +126,14 @@ public class TelaCargo {
 	/**
 	 * Solicita ao usuario a Hora Inicial e a Hora Final do intervalo a ser cadastrado
 	 */
-	private void incluirHorario() {
+	/*private void incluirHorario() {
 
 		System.out.println("Digite a hora inicial do intervalo: ");
 		String horaInicial = sc.nextLine();
 		System.out.println("Digite a hora final do intervalo: ");
 		String horaFinal = sc.nextLine();
 		horariosPermitidos.add(new Horario(horaInicial, horaFinal));
-	}
+	}*/
 
 	/**
 	 * Verifica se o usuario digitou "s", "n", "S" ou "N"; gera excecao caso tenha sido digitado algo nao permitido
