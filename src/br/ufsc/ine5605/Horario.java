@@ -1,0 +1,45 @@
+package br.ufsc.ine5605;
+
+
+public class Horario {
+    private Hora inicio;
+    private Hora fim;
+
+    public Horario(Hora inicio, Hora fim) {
+        this.inicio = inicio;
+        this.fim = fim;
+    }
+    
+    public Horario(int horaInicio,int minInicio, int horaFim, int minFim){
+        this.inicio = new Hora(horaInicio, minInicio);
+        this.fim = new Hora(horaFim, minFim);
+    }
+    
+    public Hora getInicio() {
+        return inicio;
+    }
+
+    public void setInicio(Hora inicio) {
+        this.inicio = inicio;
+    }
+
+    public Hora getFim() {
+        return fim;
+    }
+
+    public void setFim(Hora fim) {
+        this.fim = fim;
+    }   
+    
+    public boolean estaNoIntervalo(Hora horario){
+        if(inicio.vemAntes(fim)){
+            return inicio.vemAntes(horario) && fim.vemDepois(horario);
+        }else return inicio.vemAntes(horario) || fim.vemDepois(horario);
+    }
+    
+    @Override
+    public String toString(){
+        return inicio.toString() + " - " + fim.toString();
+    }
+ 
+}
