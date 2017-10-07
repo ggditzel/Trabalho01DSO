@@ -9,6 +9,7 @@ public class Cargo implements ICargo{
 	private boolean possuiAcesso;
 	private ArrayList<Horario> horariosPermitidos;
 	
+	//return dos metodos nao ser string
 	/**
 	 * 
 	 * @param codigo Codigo numerico para o cargo
@@ -51,6 +52,7 @@ public class Cargo implements ICargo{
 	public ArrayList<Horario> getHorariosPermitidos() {
 		return horariosPermitidos;
 	}
+	//boolean
 	public String AdicionarHorarioPermitido(Horario horario) {
 		if (this.ehGerencial || !this.possuiAcesso){
 			return "N�o � Permitido cadastrar hor�rio para este tipo de cargo";

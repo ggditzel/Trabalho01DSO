@@ -1,28 +1,32 @@
 package br.ufsc.ine5605;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 
-public class TelaHorario {
-    private Scanner leitor;
+
+public class TelaHorario extends Tela{
 
     
     public TelaHorario(){
-        leitor = new Scanner(System.in);
+        
     }
 
-    public void mostrarAviso(String aviso){
-        System.out.println(aviso);
-    }
 
-    public String perguntaInicio() {
+    public String perguntaInicio() throws Exception {
         System.out.println("Insira o início do horário (hh:mm): ");
-        return leitor.nextLine();
+        String resposta = leitor.nextLine();
+        if(!resposta.matches("([01]?[0-9]|2[0-3]):[0-5][0-9]") ) {
+        	throw new Exception("Formato de hora inválido.");
+        }
+        return resposta;
     }
-    public String perguntaFim() {
+    public String perguntaFim() throws Exception {
         System.out.println("Insira o fim do horário (hh:mm): ");
-        return leitor.nextLine();
+        String resposta = leitor.nextLine();
+        if(!resposta.matches("([01]?[0-9]|2[0-3]):[0-5][0-9]") ) {
+        	throw new Exception("Formato de hora inválido.");
+        }
+        return resposta;
     }
 
 	public int mostraOpcoes() {

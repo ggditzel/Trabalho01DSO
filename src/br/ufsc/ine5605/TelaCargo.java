@@ -14,7 +14,11 @@ public class TelaCargo {
 	private boolean respostaOK = false;
 
 	private Scanner sc = new Scanner(System.in);
-
+	//usar scanner da classe pai tela
+	//extends tela
+	//atributos deveriam ser temporarios do metodo incluirCargo
+	//sysout.OUT no lugar de err
+	
 	/**
 	 * Solicita via Scanner os dados necessarios para o cadastro de um novo usuario, retornando as informacoes
 	 * em uma classe temporaria a ser utilizada pelo ControladorCargo
