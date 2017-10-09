@@ -4,7 +4,19 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class ControladorFuncionario {
-	private ArrayList<Funcionario> listaFuncionarios = new ArrayList();;
+	private ArrayList<Funcionario> listaFuncionarios;
+	private static ControladorFuncionario instancia;
+	
+	private ControladorFuncionario(){
+		listaFuncionarios = new ArrayList<>();
+	}
+	
+	 public static ControladorFuncionario getInstance(){
+	    	if(instancia == null){
+	    		instancia = new ControladorFuncionario();
+	    	}
+	    	return instancia;
+	 }
 	
 	public void incluirFuncionario(int matricula, String nome, Cargo cargo, String telefone, String dataNascimento, String salario){
 		if (findFuncionarioByMatricula(matricula) == null){
@@ -35,7 +47,7 @@ public class ControladorFuncionario {
 		return listaPorCargo; // retorna para imprimir na tela
 	}
 	
-	public Funcionario findFuncionarioByMatricula(int matricula){
+	private Funcionario findFuncionarioByMatricula(int matricula){
 		Funcionario funcionario = null;
 		for (Funcionario f : listaFuncionarios){
 			if (f.getMatricula() == matricula){

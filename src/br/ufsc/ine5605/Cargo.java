@@ -9,7 +9,6 @@ public class Cargo implements ICargo{
 	private boolean possuiAcesso;
 	private ArrayList<Horario> horariosPermitidos;
 	
-	//return dos metodos nao ser string
 	/**
 	 * 
 	 * @param codigo Codigo numerico para o cargo
@@ -53,24 +52,33 @@ public class Cargo implements ICargo{
 		return horariosPermitidos;
 	}
 	//boolean
-	public String AdicionarHorarioPermitido(Horario horario) {
+	
+	/**
+	 * Adiciona um horario apenas se o cargo nao for gerencial e se possuir acesso.
+	 * Retorna "true" caso os criterios tenham sido atendidos e o horario tenha
+	 * sido cadastrado com sucesso
+	 */
+	public boolean AdicionarHorarioPermitido(Horario horario) {
 		if (this.ehGerencial || !this.possuiAcesso){
-			return "N�o � Permitido cadastrar hor�rio para este tipo de cargo";
+			return false;
 		} else {
 			this.horariosPermitidos.add(horario);
-			return "Cadastro de horario realizado com sucesso";
+			return true;
 		}
 
 	}
 	
-	public String RemoverHorarioPermitido(Horario horario) {
+	/**
+	 * Se existir o horario a ser excluido, retorna "true" apos a exclusao, senao "false"
+	 */
+	public boolean RemoverHorarioPermitido(Horario horario) {
 		for (Horario h : horariosPermitidos){
 			if (h.getInicio().equals(horario.getInicio()) && h.getFim().equals(horario.getFim())){
 				horariosPermitidos.remove(horario);
-				return "Horario removido com sucesso";				
+				return true;				
 			}
 		}
-		return "O horario fornecido nao estava cadastrado";
+		return false;
 
 	}
 	

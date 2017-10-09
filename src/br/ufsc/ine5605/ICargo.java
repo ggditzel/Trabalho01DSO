@@ -13,7 +13,7 @@ public interface ICargo {
 	public boolean getPossuiAcesso();
 	public void setPossuiAcesso(boolean possuiAcesso);
 	public ArrayList<Horario> getHorariosPermitidos();
-	public String AdicionarHorarioPermitido(Horario horario);	
-	public String RemoverHorarioPermitido(Horario horario);
+	public boolean AdicionarHorarioPermitido(Horario horario);	
+	public boolean RemoverHorarioPermitido(Horario horario);
 }
 
