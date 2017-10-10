@@ -38,7 +38,7 @@ public class ControladorFuncionario {
 	}
 	
 	public ArrayList<Funcionario> listarFuncionariosPorCargo(int codigo) {
-		ArrayList<Funcionario> listaPorCargo = new ArrayList();
+		ArrayList<Funcionario> listaPorCargo = new ArrayList<>();
 		for (Funcionario f: listaFuncionarios){
 			if (f.getCargo().getCodigo() == codigo){
 				listaPorCargo.add(f);
@@ -47,7 +47,7 @@ public class ControladorFuncionario {
 		return listaPorCargo; // retorna para imprimir na tela
 	}
 	
-	private Funcionario findFuncionarioByMatricula(int matricula){
+	public Funcionario findFuncionarioByMatricula(int matricula){
 		Funcionario funcionario = null;
 		for (Funcionario f : listaFuncionarios){
 			if (f.getMatricula() == matricula){

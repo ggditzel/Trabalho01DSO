@@ -1,0 +1,9 @@
+package br.ufsc.ine5605;
+
+public enum MotivoNegacaoAcesso {
+	MATRICULA_INEXISTENTE,
+	NAO_POSSUI_ACESSO,
+	HORARIO_NAO_PERMITIDO,
+	ACESSO_BLOQUEADO,
+	
+}
