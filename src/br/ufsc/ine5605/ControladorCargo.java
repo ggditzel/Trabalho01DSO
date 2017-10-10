@@ -7,6 +7,16 @@ public class ControladorCargo {
 	private TelaCargo tela;
 	private static ControladorCargo instancia;
 	
+	
+	/****** OPCOES DO MENU PRINCIPAL ******/
+	private final String[] opcoesMenuPrincipal = { "Voltar", "Listar Cargos Cadastrados", "Incluir Cargo", "Excluir Cargo",
+	"Alterar Cargo" };
+	
+	/****** OPCOES DO MENU PARA EDICAO DOS CARGOS ******/
+	private final String[] opcoesMenuEditarCargo = { "Voltar", "Alterar Descricao", "Alterar status gerencial", "Alterar status de acesso",
+	"Alterar Horarios de Acesso" };
+	
+	
 	private ControladorCargo() {
 		tela = new TelaCargo();
         listaCargos = new ArrayList<>();
@@ -28,7 +38,7 @@ public class ControladorCargo {
     public void mostraMenu(){
     	int opcao = -1;
     	do {
-    		opcao = tela.mostraMenuPrincipal();
+    		opcao = tela.mostraMenu(opcoesMenuPrincipal);
     		switch (opcao){
     		case 0: 
     			break;
@@ -43,15 +53,6 @@ public class ControladorCargo {
      			break;
     		case 4:
     			alterarCargo();
-    			break;
-    		case 5:
-    			alterarStatusGerencial();
-    			break;
-    		case 6:
-    			alterarStatusAcesso();
-    			break;
-    		case 7:
-    			alterarHorarios();
     			break;
     		}
     	} while (opcao != 0);
@@ -77,7 +78,7 @@ public void alterarDescricao(){
 		}
    
 	public void alterarStatusGerencial(){
-		DadosAlteraStatus dados = tela.alterarStatus("gerencial");
+		DadosAlteraStatus dados = tela.alterarStatus(Status.GERENCIAL.toString());
 		Cargo c = findCargoByCodigo(dados.codigo);
 		if (c != null){
 			c.setEhGerencial(dados.status);
@@ -93,7 +94,7 @@ public void alterarDescricao(){
 }
    
    public void alterarStatusAcesso(){
-	   DadosAlteraStatus dados = tela.alterarStatus("acesso");
+	   DadosAlteraStatus dados = tela.alterarStatus(Status.ACESSO.toString());
 	   Cargo c = findCargoByCodigo(dados.codigo);
 		if (c != null){
 			if (!c.ehGerencial()) {
@@ -176,9 +177,13 @@ public void alterarDescricao(){
 	}
 
     
-    // "Voltar", "Alterar Descricao", "Alterar status gerencial", "Alterar status de acesso", "Alterar Horarios de Acesso"    
+    // 
+	/**
+	 * Permite editar as informacoes de cargo.
+	 * Opcoes: "Voltar", "Alterar Descricao", "Alterar status gerencial", "Alterar status de acesso", "Alterar Horarios de Acesso" 
+	 */
     private void alterarCargo() {
-        int opcao = tela.mostraMenuEditar();
+        int opcao = tela.mostraMenu(opcoesMenuEditarCargo);
         switch (opcao){
             case 0:
                 break;

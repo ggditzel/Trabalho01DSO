@@ -9,12 +9,15 @@ public class Testador {
 		ControladorCargo cc = ControladorCargo.getInstance();
 		ControladorFuncionario cf = ControladorFuncionario.getInstance();
 		cc.mostraMenu();
-		cf.incluirFuncionario(1, "jose", cc.findCargoByCodigo(1), "9999-0000", "12-12-12", "1000");
-		cf.incluirFuncionario(2, "joao", cc.findCargoByCodigo(1), "9999-0001", "12-12-13", "1000");
-		cf.incluirFuncionario(3, "maria", cc.findCargoByCodigo(1), "9999-0002", "12-12-14", "2000");
-		cf.incluirFuncionario(4, "marcos", cc.findCargoByCodigo(2), "9999-0003", "12-12-15", "3000");
-		cc.mostraMenu();
-		
+//		
+//		// criar os cargos 1 e 2, so para testes, para cadastrar os seguintes funcionarios
+//		cf.incluirFuncionario(1, "jose", cc.findCargoByCodigo(1), "9999-0000", "12-12-12", "1000");
+//		cf.incluirFuncionario(2, "joao", cc.findCargoByCodigo(1), "9999-0001", "12-12-13", "1000");
+//		cf.incluirFuncionario(3, "maria", cc.findCargoByCodigo(1), "9999-0002", "12-12-14", "2000");
+//		cf.incluirFuncionario(4, "marcos", cc.findCargoByCodigo(2), "9999-0003", "12-12-15", "3000");
+//		
+//		// chama novamente o menu, para tentativa de exclusao de um cargo que ja possui funcionarios
+//		cc.mostraMenu();
 
 		System.out.println("FIM");
 		
