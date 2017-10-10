@@ -29,8 +29,15 @@ public class Horario {
 
     public void setFim(Hora fim) {
         this.fim = fim;
-    }   
+    }  
     
+    /**
+     * Verifica se a hora esta no intervalo 
+     * @param horario
+     * 	horario que sera comparado
+     * @return
+     * true, se a hora pertencer, ou false, se a hora nao estiver no intervalo
+     */
     public boolean estaNoIntervalo(Hora horario){
         if(inicio.vemAntes(fim)){
             return inicio.vemAntes(horario) && fim.vemDepois(horario);

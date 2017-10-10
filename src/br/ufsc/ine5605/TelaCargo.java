@@ -16,14 +16,23 @@ public class TelaCargo extends Tela {
 	public DadosCadastroCargo incluirCargo() {
 		int codigo = -1;
 		String nome;
+		boolean cargoJaExiste = false;
 		boolean ehGerencial = false;
-		boolean possuiAcesso = false;
+		boolean possuiAcesso = true;
 		ArrayList<Horario> horariosPermitidos = new ArrayList<Horario>();
 		boolean respostaOK = false;
 		System.out.println("==== Digite os dados solicitados ====");
-		System.out.println("Digite um codigo para o cargo (numero inteiro positivo): ");
-		codigo = leInteiroPositivo();
-
+		do {
+			System.out.println("Digite um codigo para o cargo (numero inteiro positivo): ");
+			codigo = leInteiroPositivo();
+			if(ControladorCargo.getInstance().findCargoByCodigo(codigo) != null){
+				System.out.println("Já existe cargo com este codigo, favor digitar um codigo diferente");
+				cargoJaExiste = true;
+			} else {
+				cargoJaExiste = false;
+			}
+		} while (cargoJaExiste);
+		
 		System.out.println("Digite um nome para o cargo: ");
 		nome = leitor.nextLine();
 
@@ -31,7 +40,7 @@ public class TelaCargo extends Tela {
 			respostaOK = false;
 			try {
 				System.out.println("Este cargo eh gerencial (s/n)? ");
-				ehGerencial = verificaSN(leitor.nextLine());
+				ehGerencial = super.verificaSN(leitor.nextLine());
 				respostaOK = true;
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
@@ -39,41 +48,42 @@ public class TelaCargo extends Tela {
 			}
 
 		} while (!respostaOK);
-
-		do {
-			respostaOK = false;
-			try {
-				System.out.println("Este cargo possui acesso ao financeiro (s/n)? ");
-				possuiAcesso = verificaSN(leitor.nextLine());
-				respostaOK = true;
-			} catch (Exception e) {
-				System.out.println(e.getMessage());
+		
+		if(!ehGerencial){
+			do {
 				respostaOK = false;
-			}
-
-		} while (!respostaOK);
-
-		do {
-			respostaOK = false;
-			if (possuiAcesso && !ehGerencial) {
-				System.out.println("Este cargo necessita do cadastro de horario de acesso");
-
 				try {
-					System.out.println("Deseja cadastrar horario agora (s/n)? Obs: podera ser alterado posteriormente");
-					if (verificaSN(leitor.nextLine())) {
-						ControladorHorario.getInstance().iniciaCadastro();
-					}
+					System.out.println("Este cargo possui acesso ao financeiro (s/n)? ");
+					possuiAcesso = super.verificaSN(leitor.nextLine());
 					respostaOK = true;
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
 					respostaOK = false;
 				}
-			} else {
-				break;
-			}
 
-		} while (!respostaOK);
+			} while (!respostaOK);
 
+			do {
+				respostaOK = false;
+				if (possuiAcesso) {
+					System.out.println("Este cargo necessita do cadastro de horario de acesso");
+
+					try {
+						System.out.println("Deseja cadastrar horario agora (s/n)? Obs: podera ser alterado posteriormente");
+						if (verificaSN(leitor.nextLine())) {
+							horariosPermitidos = ControladorHorario.getInstance().iniciaCadastro();
+						}
+						respostaOK = true;
+					} catch (Exception e) {
+						System.out.println(e.getMessage());
+						respostaOK = false;
+					}
+				} else {
+					break;
+				}
+
+			} while (!respostaOK);
+		}
 		return new DadosCadastroCargo(codigo, nome, ehGerencial, possuiAcesso, horariosPermitidos);
 
 	}
@@ -85,7 +95,7 @@ public class TelaCargo extends Tela {
 	 */
 	public int excluirCargo() {
 		System.out.println("Digite o codigo do cargo a ser excluido (numero inteiro positivo)");
-		return leInteiroPositivo();
+		return super.leInteiroPositivo();
 	}
 
 	/**
@@ -96,12 +106,28 @@ public class TelaCargo extends Tela {
 	public void listarCargos(ArrayList<Cargo> lista) {
 		System.out.println("\n=== Cargos Cadastrados ===");
 		for (Cargo c : lista) {
-			System.out.println("Codigo: " + c.getCodigo() + "; "
+			System.out.println("\nCodigo: " + c.getCodigo() + "; "
 					+ "Nome: " + c.getNome() + "; "
-					+ "Cargo Gerencial? " + c.ehGerencial() + "; "
-					+ "Possui Acesso? " + c.getPossuiAcesso());
+					+ "Cargo Gerencial? " + converteBooleanSimNao(c.ehGerencial()) + "; "
+					+ "Possui Acesso? " + converteBooleanSimNao(c.getPossuiAcesso()) + ".");
+			if (c.ehGerencial()){
+				System.out.println("Gerentes podem acessar a qualquer hora.");
+			} else if (!c.getPossuiAcesso()){
+				System.out.println("Este cargo nao possui permissao de acesso.");
+			} else {
+				System.out.println("Horarios permitidos para acesso: ");
+				ControladorHorario.getInstance().listaHorarios(c);
+			}
 		}
 		System.out.println("");
+	}
+
+	private String converteBooleanSimNao(boolean b) {
+		if (b) {
+			return "Sim";
+		} else {
+			return "Nao";
+		}
 	}
 
 	/**
@@ -120,7 +146,12 @@ public class TelaCargo extends Tela {
 		return new DadosAlteraDescricao(codigo, novoNome);
 	}
 
-	public DadosAlteraStatus alterarStatus (){
+	/**
+         * Altera o status gerencial ou o status de acesso, dependendo do parametro passado
+         * @param status String "gerencial" ou "acesso", de acordo com o status a ser editado
+         * @return 
+         */
+        public DadosAlteraStatus alterarStatus (String status){
 		int codigo = -1;
 		boolean novoStatus = false;
 		boolean respostaOK = false;
@@ -131,8 +162,14 @@ public class TelaCargo extends Tela {
 		do {
 			respostaOK = false;
 			try {
-				System.out.println("Este cargo sera gerencial (s/n)?");
-				novoStatus = verificaSN(leitor.nextLine());
+				
+                                if (status.equals("gerencial")){
+                                System.out.println("Este cargo sera gerencial (s/n)?");
+                        }
+                                if (status.equals("acesso")){
+                                    System.out.println("Este cargo tera acesso (s/n)?");
+                                }
+				novoStatus = super.verificaSN(leitor.nextLine());
 				respostaOK = true;
 			} catch (Exception e){
 				System.out.println(e.getMessage());
@@ -148,8 +185,7 @@ public class TelaCargo extends Tela {
 	 */
 	public int mostraMenuPrincipal () {
 
-		String[] opcoesMenu = {"Voltar", "Listar Cargos Cadastrados", "Incluir Cargo", "Excluir Cargo", "Alterar Descricao",
-				"Alterar status gerencial", "Alterar status de acesso", "Alterar Horarios de Acesso"};
+		String[] opcoesMenu = {"Voltar", "Listar Cargos Cadastrados", "Incluir Cargo", "Excluir Cargo", "Alterar Cargo"};
 		boolean respostaOK = false;
 		int opcao = 0;
 
@@ -177,56 +213,40 @@ public class TelaCargo extends Tela {
 		} while (!respostaOK);
 		return opcao;
 	}
+        
+        public int mostraMenuEditar (){
+            String[] opcoesMenu = {"Voltar", "Alterar Descricao", "Alterar status gerencial", "Alterar status de acesso", "Alterar Horarios de Acesso"};
+		boolean respostaOK = false;
+		int opcao = 0;
+
+		do {
+			respostaOK = false;
+			try{
+				System.out.println("=== Edicao de Cargos ===");
+				for (int i = 0; i < opcoesMenu.length; i++){
+					System.out.println("" + i  + " - " + opcoesMenu[i]);
+				}
+
+				opcao = leitor.nextInt();
+				if (opcao < 0 ||  opcao > opcoesMenu.length -1){
+					respostaOK = false;
+				} else {
+					respostaOK = true;
+				}
+			}
+			catch (InputMismatchException e) {
+				System.out.println("\nDigite apenas numeros\n");
+				respostaOK = false;
+			}
+			leitor.nextLine(); // limpa o buffer
+
+		} while (!respostaOK);
+		return opcao;
+	}
+       
 
 	public void mostraMensagem(String mensagem){
 		System.out.println(mensagem);
 	}
 
-
-	/**
-	 * Verifica se o usuario digitou "s", "n", "S" ou "N"; gera excecao caso
-	 * tenha sido digitado algo nao permitido
-	 * 
-	 * @param resposta
-	 *            Resposta digitada pelo usuario
-	 * @return "true", caso digitado "s" ou "S"; "false", caso digitado "n" ou
-	 *         "N"
-	 * @throws Exception
-	 *             no caso de algo nao permitido ter sido digitado
-	 */
-	private boolean verificaSN(String resposta) throws Exception {
-		boolean opcao = false;
-		if (resposta.equalsIgnoreCase("s")) {
-			opcao = true;
-		} else if (resposta.equalsIgnoreCase("n")) {
-			opcao = false;
-		} else {
-			throw new Exception("\nDigite apenas uma letra, 's' ou 'n' \n");
-		}
-		return opcao;
-	}
-	
-	/**
-	 * Solicita a digitacao de um numero inteiro positivo, ate que seja digitado corretamente
-	 * @return
-	 * 	Valor inteiro positivo lido do teclado
-	 */
-	private int leInteiroPositivo() {
-		int codigo = -1;
-		boolean respostaOK = false;
-		do {
-			try {
-				codigo = leitor.nextInt();
-				if (codigo > 0) {
-					respostaOK = true;
-				} else {
-					respostaOK = false;
-				}
-			} catch (InputMismatchException e) {
-				System.out.println("\nDigite um numero inteiro positivo\n");
-			}
-			leitor.nextLine();
-		} while (!respostaOK);
-		return codigo;
-	}
 }

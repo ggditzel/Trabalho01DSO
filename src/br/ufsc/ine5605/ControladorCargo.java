@@ -18,6 +18,10 @@ public class ControladorCargo {
     	return instancia;
     }
     
+    public ArrayList<Cargo> getListaCargos() {
+    	return listaCargos;
+    }
+    
     /**
      * Chama a tela que mostra o menu principal (relacionado a Cargos)
      */
@@ -38,7 +42,7 @@ public class ControladorCargo {
   				excluirCargo();
      			break;
     		case 4:
-    			alterarDescricao();
+    			alterarCargo();
     			break;
     		case 5:
     			alterarStatusGerencial();
@@ -72,23 +76,36 @@ public void alterarDescricao(){
 			}
 		}
    
-   public void alterarStatusGerencial(){
-	   DadosAlteraStatus dados = tela.alterarStatus();
-	   Cargo c = findCargoByCodigo(dados.codigo);
+	public void alterarStatusGerencial(){
+		DadosAlteraStatus dados = tela.alterarStatus("gerencial");
+		Cargo c = findCargoByCodigo(dados.codigo);
 		if (c != null){
 			c.setEhGerencial(dados.status);
-			tela.mostraMensagem("Status alterado com sucesso para \"" + dados.status + "\"");
+			if (c.ehGerencial()){
+				c.getHorariosPermitidos().clear(); //gerentes acessam a qualquer momento
 			} else {
-				tela.mostraMensagem("Nao existe cargo com este codigo (" + dados.codigo + ")");
+				tela.mostraMensagem("Nao esqueca de atualizar/definir os horarios de acesso");
 			}
+			tela.mostraMensagem("Status definido com sucesso.");
+		} else {
+			tela.mostraMensagem("Nao existe cargo com este codigo (" + dados.codigo + ")");
 		}
+}
    
    public void alterarStatusAcesso(){
-	   DadosAlteraStatus dados = tela.alterarStatus();
+	   DadosAlteraStatus dados = tela.alterarStatus("acesso");
 	   Cargo c = findCargoByCodigo(dados.codigo);
 		if (c != null){
-			c.setPossuiAcesso(dados.status);
-			tela.mostraMensagem("Status alterado com sucesso para \"" + dados.status + "\"");
+			if (!c.ehGerencial()) {
+				c.setPossuiAcesso(dados.status);
+				if (c.getPossuiAcesso()){
+					tela.mostraMensagem("Nao esqueca de atualizar/definir os horarios de acesso");
+				} else {
+					c.getHorariosPermitidos().clear();
+				}
+				tela.mostraMensagem("Status definido com sucesso");
+				
+			}
 			} else {
 				tela.mostraMensagem("Nao existe cargo com este codigo (" + dados.codigo + ")");
 			}
@@ -157,5 +174,27 @@ public void alterarDescricao(){
 		}
 		return cargo;
 	}
+
+    
+    // "Voltar", "Alterar Descricao", "Alterar status gerencial", "Alterar status de acesso", "Alterar Horarios de Acesso"    
+    private void alterarCargo() {
+        int opcao = tela.mostraMenuEditar();
+        switch (opcao){
+            case 0:
+                break;
+            case 1:
+                alterarDescricao();
+                break;
+            case 2:
+                alterarStatusGerencial();
+                break;
+            case 3:
+                alterarStatusAcesso();
+                break;
+            case 4:
+                alterarHorarios();
+                break;
+        }
+    }
 
 }
