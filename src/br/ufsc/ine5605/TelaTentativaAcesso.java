@@ -2,25 +2,12 @@ package br.ufsc.ine5605;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 public class TelaTentativaAcesso extends Tela {
 
 	public void mostraNegacao(MotivoNegacaoAcesso motivo) {
-		switch(motivo){
-		case ACESSO_BLOQUEADO:
-			System.out.println("Acesso bloqueado.");
-			break;
-		case HORARIO_NAO_PERMITIDO:
-			System.out.println("Horario não permitido.");
-			break;
-		case MATRICULA_INEXISTENTE:
-			System.out.println("Matricula nao existe.");
-			break;
-		case NAO_POSSUI_ACESSO:
-			System.out.println("Nao possui acesso.");
-			break;
-		}
-		
+		System.out.println(motivo.getNome());
 	}
 
 	public int mostraOpcoes() {
@@ -98,6 +85,36 @@ public class TelaTentativaAcesso extends Tela {
 	public void confirmaAcesso() {
 		System.out.println("Acesso permitido.");
 		
+	}
+
+	public int mostraMenuTentativas() {
+		System.out.println("Escolha uma opcao: ");
+		System.out.println("1- Listar todas as tentativas de acesso negadas");
+		System.out.println("2- Listar tentativas de acesso a partir de uma matricula");
+		System.out.println("3- Listar tentativas de acesso por um motivo");
+		return leInteiroPositivoAte(3);
+	}
+
+	public void listaTentativas(ArrayList<TentativaAcesso> tentativas) {
+		if(tentativas.isEmpty()){
+			System.out.println("Nao ha tentativas de acesso negadas");
+		} else {
+			for(TentativaAcesso t: tentativas){
+				System.out.println(t.toString());
+			}
+		}
+		System.out.println("Pressione enter para voltar");
+		leitor.nextLine();
+		
+	}
+
+	public int perguntaMotivo() {
+		int i = 0;
+		for(MotivoNegacaoAcesso m: MotivoNegacaoAcesso.values()) {
+			i++;
+			System.out.println(""+ i + "- " + m.getNome());
+		}
+		return leInteiroPositivoAte(i);
 	}
 	
 }

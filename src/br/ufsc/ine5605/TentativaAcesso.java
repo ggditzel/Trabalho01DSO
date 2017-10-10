@@ -1,6 +1,5 @@
 package br.ufsc.ine5605;
 
-import java.sql.Date;
 
 public class TentativaAcesso {
 	private String data;
@@ -39,6 +38,11 @@ public class TentativaAcesso {
 	}
 	public void setMotivo(MotivoNegacaoAcesso motivo) {
 		this.motivo = motivo;
+	}
+	
+	@Override
+	public String toString(){
+		return "" + matricula + "tentou acessar a sala no dia " + data + " as " + hora + " e nao conseguiu pois " + motivo.getNome();
 	}
 	
 }

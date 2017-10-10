@@ -1,9 +1,19 @@
 package br.ufsc.ine5605;
 
 public enum MotivoNegacaoAcesso {
-	MATRICULA_INEXISTENTE,
-	NAO_POSSUI_ACESSO,
-	HORARIO_NAO_PERMITIDO,
-	ACESSO_BLOQUEADO,
+	ACESSO_BLOQUEADO("Acesso bloqueado"),
+	HORARIO_NAO_PERMITIDO("Horario nao permitido"),
+	MATRICULA_INEXISTENTE("Matricula nao existe"),
+	NAO_POSSUI_ACESSO("Nao possui acesso");
+	
+	private String nome;
+	
+	private MotivoNegacaoAcesso(String nome) {
+		this.nome = nome;
+	}
+	
+	public String getNome(){
+		return this.nome;
+	}
 	
 }

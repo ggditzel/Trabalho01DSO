@@ -59,6 +59,47 @@ public class ControladorTentativaAcesso {
 
 	}
 	
+	public void menuRelatorioTentativas(){
+		int opcao = tela.mostraMenuTentativas();
+		switch(opcao){
+			case 0:
+				break;
+			case 1:
+				tela.listaTentativas(tentativas);
+				break;
+			case 2:
+				int matricula = tela.perguntaMatricula();
+				tela.listaTentativas(findTentativasByMatricula(matricula));
+				break;
+			case 3:
+				int valorMotivo = tela.perguntaMotivo();
+				if(valorMotivo == 0) break;
+				MotivoNegacaoAcesso motivo = valorMotivo == 1 ? MotivoNegacaoAcesso.ACESSO_BLOQUEADO : valorMotivo == 2 ? MotivoNegacaoAcesso.HORARIO_NAO_PERMITIDO : valorMotivo == 3 ? MotivoNegacaoAcesso.MATRICULA_INEXISTENTE : MotivoNegacaoAcesso.NAO_POSSUI_ACESSO; // posso usar switch aqui
+				tela.listaTentativas(findTentativasByMotivo(motivo));
+				break;
+		}
+		
+	}
+	
+	private ArrayList<TentativaAcesso> findTentativasByMatricula(int matricula) {
+		ArrayList<TentativaAcesso> tentativas = new ArrayList<>();
+		for(TentativaAcesso t: tentativas) {
+			if(t.getMatricula() == matricula) {
+				tentativas.add(t);
+			}
+		}
+		return tentativas;
+	}
+	
+	private ArrayList<TentativaAcesso> findTentativasByMotivo(MotivoNegacaoAcesso motivo) {
+		ArrayList<TentativaAcesso> tentativas = new ArrayList<>();
+		for(TentativaAcesso t: tentativas) {
+			if(t.getMotivo().equals(motivo)){
+				tentativas.add(t);
+			}
+		}
+		return tentativas;
+	}
 	
 
 
