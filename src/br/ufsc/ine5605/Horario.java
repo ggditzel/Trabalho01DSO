@@ -38,7 +38,7 @@ public class Horario {
      * @return
      * true, se a hora pertencer, ou false, se a hora nao estiver no intervalo
      */
-    public boolean estaNoIntervalo(Hora horario){
+    public boolean contem(Hora horario){
         if(inicio.vemAntes(fim)){
             return inicio.vemAntes(horario) && fim.vemDepois(horario);
         }else return inicio.vemAntes(horario) || fim.vemDepois(horario);

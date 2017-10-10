@@ -74,9 +74,9 @@ public class ControladorHorario {
     	Horario novo = null;
     	do{
     		String inicio = tela.perguntaInicio();
-    		Hora horarioInicio = new Hora(Integer.parseInt(inicio.substring(0,2)), Integer.parseInt(inicio.substring(3)));
+    		Hora horarioInicio = converte(inicio);
     		String fim = tela.perguntaFim();
-    		Hora horarioFim = new Hora(Integer.parseInt(fim.substring(0,2)), Integer.parseInt(fim.substring(3)));
+    		Hora horarioFim = converte(fim);
     		if(possuiHorario(horarioInicio, horarioFim)){
     			tela.mostraAviso("Horario ja cadastrado.");
     			respostaOK = false; //Redundant
@@ -211,6 +211,9 @@ public class ControladorHorario {
     	}
     	return false;
     }
+	public static Hora converte(String hora) {
+		return new Hora(Integer.parseInt(hora.substring(0,2)), Integer.parseInt(hora.substring(3)));
+	}
     
     
     

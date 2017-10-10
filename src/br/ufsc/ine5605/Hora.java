@@ -1,5 +1,7 @@
 package br.ufsc.ine5605;
 
+import java.util.ArrayList;
+
 
 public class Hora {
     private int hora;
@@ -29,26 +31,26 @@ public class Hora {
     }
     
     /**
-     * Verifica se o horario antecede o horario do parametro
+     * Verifica se a hora antecede a hora do parametro
      * @param horario
-     * 	horario que sera comparado
+     * 	hora que sera comparada
      * @return
-     * true, se o horario anteceder, ou false, se o horario proceder
+     * true, se a hora anteceder ou for igual, ou false, se a hora suceder
      */
     public boolean vemAntes(Hora horario){
-        return hora < horario.getHora() || (hora == horario.getHora() && minuto < horario.getMinuto());
+        return hora < horario.getHora() || (hora == horario.getHora() && minuto <= horario.getMinuto());
 
     }
     
     /**
-     * Verifica se o horario procede o horario do parametro
+     * Verifica se a hora sucede a hora do parametro
      * @param horario
-     * 	horario que sera comparado
+     * 	hora que sera comparada
      * @return
-     * true, se o horario proceder, ou false, se o horario anteceder
+     * true, se a hora suceder ou for igual, ou false, se a hora anteceder
      */
      public boolean vemDepois(Hora horario){
-        return hora > horario.getHora() || (hora == horario.getHora() && minuto > horario.getMinuto());
+        return hora > horario.getHora() || (hora == horario.getHora() && minuto >= horario.getMinuto());
     }
      
     @Override
@@ -66,5 +68,14 @@ public class Hora {
         }
         
     }
+
+	public boolean estaPresente(ArrayList<Horario> horarios) {
+		for(Horario h: horarios) {
+			if(h.contem(this)) {
+				return true;
+			}
+		}
+		return false;
+	}
     
 }

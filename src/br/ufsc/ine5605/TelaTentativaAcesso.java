@@ -1,5 +1,8 @@
 package br.ufsc.ine5605;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 public class TelaTentativaAcesso extends Tela {
 
 	public void mostraNegacao(MotivoNegacaoAcesso motivo) {
@@ -50,6 +53,51 @@ public class TelaTentativaAcesso extends Tela {
 	public int perguntaMatricula() {
 		System.out.println("Digite sua matricula:"); 
 		return leInteiroPositivo();
+	}
+
+	public String perguntaData() {
+		String data = "";
+		boolean respostaOK = false;
+		System.out.println("Digite a data do acesso (dd/mm/aaaa): ");
+		do{
+			data = leitor.nextLine();
+			if(dataEhValida(data) ) {
+				respostaOK = true;
+				if(data.charAt(1) == '/') {
+					data = "0"+ data;
+				}
+				if(data.charAt(4) == '/') {
+					data = data.substring(0, 3) + "0" + data.substring(3);
+				}
+				if(data.length() != 10) {
+					respostaOK = false;
+					System.out.println("Formato de data invalido.\nDigite novamente");
+				}
+			} else {
+				System.out.println("Formato de data invalido.\nDigite novamente");
+				respostaOK = false; // redundante
+			}
+		}while(!respostaOK);
+		
+		return data;
+	}
+	
+	private boolean dataEhValida(String text) {
+		   
+	    SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+
+	    df.setLenient(false);
+	    try {
+	        df.parse(text);
+	        return true;
+	    } catch (ParseException ex) {
+	        return false;
+	    }
+	}
+
+	public void confirmaAcesso() {
+		System.out.println("Acesso permitido.");
+		
 	}
 	
 }
