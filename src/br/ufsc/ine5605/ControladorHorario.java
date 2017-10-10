@@ -41,7 +41,7 @@ public class ControladorHorario {
     	tela.listaHorarios(horariosCargo);
     	int opcao;
     	do{
-    		opcao = tela.mostraOpcoes();
+    		opcao = tela.mostraOpcoesAdicionar();
     		if(opcao == 1){
     			if(!diferenca(horariosAcesso, horariosCargo).isEmpty()){
     				opcao = tela.mostraListaAdicionar(diferenca(horariosAcesso, horariosCargo));
@@ -109,7 +109,7 @@ public class ControladorHorario {
     	tela.listaHorarios(horariosCargo);
     	int opcao;
     	do{
-    		opcao = tela.mostraOpcoes();
+    		opcao = tela.mostraOpcoesAdicionar();
     		if(opcao == 1){
     			if(!diferenca(horariosAcesso, horariosCargo).isEmpty()){
     				opcao = tela.mostraListaAdicionar(diferenca(horariosAcesso, horariosCargo));
@@ -155,6 +155,20 @@ public class ControladorHorario {
     			}
     		}
     	}while(true);
+    }
+    
+    public void editaHorariosCargo(ICargo cargo){
+    	int opcao = tela.mostraOpcoesEditar();
+    	switch(opcao){
+    		case 0:
+    			break;
+    		case 1:
+    			adicionarHorariosCargo(cargo);
+    			break;
+    		case 2:
+    			removerHorariosCargo(cargo);
+    			break;
+    	}
     }
     
 //TODO

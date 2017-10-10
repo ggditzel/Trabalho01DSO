@@ -83,7 +83,7 @@ public void alterarDescricao(){
 		if (c != null){
 			c.setEhGerencial(dados.status);
 			if (c.ehGerencial()){
-				c.getHorariosPermitidos().clear(); //gerentes acessam a qualquer momento
+				ControladorHorario.getInstance().removerHorariosCargo(c); //gerentes acessam a qualquer momento
 			} else {
 				tela.mostraMensagem("Nao esqueca de atualizar/definir os horarios de acesso");
 			}
@@ -102,7 +102,7 @@ public void alterarDescricao(){
 				if (c.getPossuiAcesso()){
 					tela.mostraMensagem("Nao esqueca de atualizar/definir os horarios de acesso");
 				} else {
-					c.getHorariosPermitidos().clear();
+					ControladorHorario.getInstance().removerHorariosCargo(c);
 				}
 				tela.mostraMensagem("Status definido com sucesso");
 				

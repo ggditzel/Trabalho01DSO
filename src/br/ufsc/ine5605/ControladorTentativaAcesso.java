@@ -56,10 +56,9 @@ public class ControladorTentativaAcesso {
 		} else {
 			tela.confirmaAcesso();
 		}
-		
-		
-		
+
 	}
+	
 	
 
 

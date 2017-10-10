@@ -18,16 +18,16 @@ public class TelaHorario extends Tela{
 	 * 	String correspondente a hora digitada
 	 */
     public String perguntaInicio() {
-        System.out.println("Insira o início do horário (hh:mm): ");
+        System.out.println("Insira o início do horario (hh:mm): ");
         return leHora();
     }
     public String perguntaFim() {
-        System.out.println("Insira o fim do horário (hh:mm): ");
+        System.out.println("Insira o fim do horario (hh:mm): ");
         return leHora();
     }
 
-	public int mostraOpcoes() {
-			System.out.println("1- Adicionar horário de acesso \n"
+	public int mostraOpcoesAdicionar() {
+			System.out.println("1- Adicionar horario de acesso \n"
 							 + "0- Voltar");
 		return super.leInteiroPositivoAte(1);
 	}
@@ -56,7 +56,7 @@ public class TelaHorario extends Tela{
 	public int mostraListaAdicionar(ArrayList<Horario> lista) {
 		System.out.println("Selecione um horario:");
 		mostraLista(lista);
-		System.out.println("0- Adicionar novo horário");
+		System.out.println("0- Adicionar novo horario");
 		return super.leInteiroPositivoAte(lista.size()+1);
 	}
 	
@@ -92,6 +92,14 @@ public class TelaHorario extends Tela{
 	public void mostraAviso(String aviso) {
 		System.out.println(aviso);
 	}
+
+	public int mostraOpcoesEditar() {
+		System.out.println("1- Adicionar horario de acesso \n"
+				 + "2- Remover horario de acesso"
+				 + "0- Voltar");
+		return super.leInteiroPositivoAte(2);
+	}
+
 	
 	
 
