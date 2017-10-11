@@ -42,7 +42,7 @@ public class TentativaAcesso {
 	
 	@Override
 	public String toString(){
-		return "" + matricula + "tentou acessar a sala no dia " + data + " as " + hora + " e nao conseguiu pois " + motivo.getNome();
+		return "" + matricula + " tentou acessar a sala no dia " + data + " as " + hora + " e nao conseguiu. Motivo: " + motivo.getNome();
 	}
 	
 }
