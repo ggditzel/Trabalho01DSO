@@ -58,14 +58,25 @@ public class ControladorCargo {
     	} while (opcao != 0);
     }
 	
-   // precisa incluir o codigo do cargo que tera os horarios alterados;
-    public void alterarHorarios(){	// arrumar para tratar a excecao no controlador de horario
-	   try {
-		   ControladorHorario.getInstance().iniciaCadastro();
-	   } catch (Exception e) {
-		   System.out.println(e.getMessage());
-	   }
-	}
+    /**
+     * Chama a tela para edicao dos horarios. Verifica se o codigo digitado pertence a um cargo
+     *  que nao seja gerencial e que tenha permissao de acesso (ou seja, se eh um cargo que possua
+     *  horarios a serem editados) para entao chamar a tela apropriada de edicao.
+     */
+    public void alterarHorarios(){
+    	int codigo = tela.alterarHorarios();
+    	Cargo c = findCargoByCodigo(codigo);
+    	if (c != null){
+    		if (!c.ehGerencial() && c.getPossuiAcesso()) {
+    			ControladorHorario.getInstance().editaHorariosCargo(c);
+    		} else {
+    			tela.mostraMensagem("Este cargo nao aceita inclusao de horarios");
+    		}
+    	} else {
+    		tela.mostraMensagem("Nao existe cargo com este codigo (" + codigo + ")");
+    	}
+    }
+    
 public void alterarDescricao(){
 	   DadosAlteraDescricao dados = tela.alterarDescricao();
 	   Cargo c = findCargoByCodigo(dados.codigo);
@@ -83,7 +94,8 @@ public void alterarDescricao(){
 		if (c != null){
 			c.setEhGerencial(dados.status);
 			if (c.ehGerencial()){
-				ControladorHorario.getInstance().removerHorariosCargo(c); //gerentes acessam a qualquer momento
+				c.getHorariosPermitidos().clear();
+				//ControladorHorario.getInstance().removerHorariosCargo(c); //gerentes acessam a qualquer momento
 			} else {
 				tela.mostraMensagem("Nao esqueca de atualizar/definir os horarios de acesso");
 			}
@@ -93,24 +105,24 @@ public void alterarDescricao(){
 		}
 }
    
-   public void alterarStatusAcesso(){
-	   DadosAlteraStatus dados = tela.alterarStatus(Status.ACESSO.toString());
-	   Cargo c = findCargoByCodigo(dados.codigo);
+	public void alterarStatusAcesso(){
+		DadosAlteraStatus dados = tela.alterarStatus(Status.ACESSO.toString());
+		Cargo c = findCargoByCodigo(dados.codigo);
 		if (c != null){
 			if (!c.ehGerencial()) {
 				c.setPossuiAcesso(dados.status);
 				if (c.getPossuiAcesso()){
 					tela.mostraMensagem("Nao esqueca de atualizar/definir os horarios de acesso");
 				} else {
-					ControladorHorario.getInstance().removerHorariosCargo(c);
+					c.getHorariosPermitidos().clear();
+					//ControladorHorario.getInstance().removerHorariosCargo(c);
 				}
 				tela.mostraMensagem("Status definido com sucesso");
-				
 			}
-			} else {
-				tela.mostraMensagem("Nao existe cargo com este codigo (" + dados.codigo + ")");
-			}
+		} else {
+			tela.mostraMensagem("Nao existe cargo com este codigo (" + dados.codigo + ")");
 		}
+	}
     
     /**
     * Chama a tela para incluir cargo; apos tentativa de inclusao, solicita impressao de mensagem confirmando ou negando a inclusao

@@ -98,27 +98,36 @@ public class TelaCargo extends Tela {
 		System.out.println("Digite o codigo do cargo a ser excluido (numero inteiro positivo)");
 		return super.leInteiroPositivo();
 	}
+	
+	public int alterarHorarios() {
+		System.out.println("Digite o codigo do cargo que tera alteracao de horarios (numero inteiro positivo)");
+		return leInteiroPositivo();
+	}
+
 
 	/**
 	 * Recebe uma lista de cargos para mostrar na tela, mostrando codigo, nome,
-	 * status gerencial e status de acesso
+	 * status gerencial, status de acesso e horarios, se o cargo permitir cadastro.
 	 * 
-	 * @param lista
-	 *            Lista de cargos a ser mostrada
+	 * @param lista Lista de cargos a ser mostrada
 	 */
 	public void listarCargos(ArrayList<Cargo> lista) {
 		System.out.println("\n=== Cargos Cadastrados ===");
 		for (Cargo c : lista) {
-			System.out.println("\nCodigo: " + c.getCodigo() + "; " + "Nome: " + c.getNome());// + "; " + "Cargo Gerencial? "
-					//+ converteBooleanSimNao(c.ehGerencial()) + "; " + "Necessita cadastro para acesso? "
-					//+ converteBooleanSimNao(c.getPossuiAcesso()) + ".");
+			System.out.println("\nCodigo: " + c.getCodigo() + "; " + "Nome: " + c.getNome() + "; " + "Cargo Gerencial? "
+					+ converteBooleanSimNao(c.ehGerencial()) + "; " + "Necessita cadastro para acesso? "
+					+ converteBooleanSimNao(c.getPossuiAcesso()) + ".");
 			if (c.ehGerencial()) {
 				System.out.println("Gerentes podem acessar a qualquer hora.");
 			} else if (!c.getPossuiAcesso()) {
 				System.out.println("Este cargo nao possui permissao de acesso.");
 			} else {
 				System.out.println("Horarios permitidos para acesso: ");
-				ControladorHorario.getInstance().listaHorarios(c);
+				if (!c.getHorariosPermitidos().isEmpty()){
+					ControladorHorario.getInstance().listaHorarios(c);
+				} else {
+					System.out.println("Esta cargo ainda nao possui horarios de acesso cadastrados");
+				}
 			}
 		}
 		System.out.println("");

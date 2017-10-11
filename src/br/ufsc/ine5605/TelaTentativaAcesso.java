@@ -12,7 +12,7 @@ public class TelaTentativaAcesso extends Tela {
 
 	public int mostraOpcoes() {
 		System.out.println("1- Usar horario e data local");
-		System.out.println("2- Definir horaio e data (para testes)");
+		System.out.println("2- Definir horario e data (para testes)");
 		System.out.println("0- Voltar");
 		return super.leInteiroPositivoAte(2);
 	}
