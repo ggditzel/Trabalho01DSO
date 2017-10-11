@@ -30,7 +30,7 @@ public class ControladorTentativaAcesso {
 			java.util.Date agora = new java.util.Date();
 			SimpleDateFormat formata = new SimpleDateFormat("dd/MM/yyyy");
 			data = formata.format(agora);
-			formata = new SimpleDateFormat("hh:mm");
+			formata = new SimpleDateFormat("HH:mm");
 			hora = ControladorHorario.converte(formata.format(agora));
 		} else {
 			hora = ControladorHorario.converte(tela.perguntaHora());
@@ -41,6 +41,10 @@ public class ControladorTentativaAcesso {
 		if(funcionario == null) {
 			tentativas.add(new TentativaAcesso(data, hora, matricula, MotivoNegacaoAcesso.MATRICULA_INEXISTENTE) );
 			tela.mostraNegacao(MotivoNegacaoAcesso.MATRICULA_INEXISTENTE);
+		} else if(funcionario.getNumeroAcessosNegados() >= 3) {
+			tentativas.add(new TentativaAcesso(data, hora, matricula, MotivoNegacaoAcesso.ACESSO_BLOQUEADO) );
+			funcionario.setNumeroAcessosNegados(funcionario.getNumeroAcessosNegados() + 1);
+			tela.mostraNegacao(MotivoNegacaoAcesso.ACESSO_BLOQUEADO);
 		} else if(!funcionario.getCargo().getPossuiAcesso()){
 			tentativas.add(new TentativaAcesso(data, hora, matricula, MotivoNegacaoAcesso.NAO_POSSUI_ACESSO) );
 			funcionario.setNumeroAcessosNegados(funcionario.getNumeroAcessosNegados() + 1);
@@ -49,11 +53,7 @@ public class ControladorTentativaAcesso {
 			tentativas.add(new TentativaAcesso(data, hora, matricula, MotivoNegacaoAcesso.HORARIO_NAO_PERMITIDO) );
 			funcionario.setNumeroAcessosNegados(funcionario.getNumeroAcessosNegados() + 1);
 			tela.mostraNegacao(MotivoNegacaoAcesso.HORARIO_NAO_PERMITIDO);
-		} else if(funcionario.getNumeroAcessosNegados() >= 3) {
-			tentativas.add(new TentativaAcesso(data, hora, matricula, MotivoNegacaoAcesso.ACESSO_BLOQUEADO) );
-			funcionario.setNumeroAcessosNegados(funcionario.getNumeroAcessosNegados() + 1);
-			tela.mostraNegacao(MotivoNegacaoAcesso.ACESSO_BLOQUEADO);
-		} else {
+		}  else {
 			tela.confirmaAcesso();
 		}
 
@@ -82,23 +82,23 @@ public class ControladorTentativaAcesso {
 	}
 	
 	private ArrayList<TentativaAcesso> findTentativasByMatricula(int matricula) {
-		ArrayList<TentativaAcesso> tentativas = new ArrayList<>();
+		ArrayList<TentativaAcesso> tentativasDaMatricula = new ArrayList<>();
 		for(TentativaAcesso t: tentativas) {
 			if(t.getMatricula() == matricula) {
-				tentativas.add(t);
+				tentativasDaMatricula.add(t);
 			}
 		}
-		return tentativas;
+		return tentativasDaMatricula;
 	}
 	
 	private ArrayList<TentativaAcesso> findTentativasByMotivo(MotivoNegacaoAcesso motivo) {
-		ArrayList<TentativaAcesso> tentativas = new ArrayList<>();
+		ArrayList<TentativaAcesso> tentativasDoMotivo = new ArrayList<>();
 		for(TentativaAcesso t: tentativas) {
 			if(t.getMotivo().equals(motivo)){
-				tentativas.add(t);
+				tentativasDoMotivo.add(t);
 			}
 		}
-		return tentativas;
+		return tentativasDoMotivo;
 	}
 	
 
