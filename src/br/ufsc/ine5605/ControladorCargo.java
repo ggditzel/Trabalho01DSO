@@ -13,7 +13,7 @@ public class ControladorCargo {
 	"Alterar Cargo" };
 	
 	/****** OPCOES DO MENU PARA EDICAO DOS CARGOS ******/
-	private final String[] opcoesMenuEditarCargo = { "Voltar", "Alterar Descricao", "Alterar status gerencial", "Alterar status de acesso",
+	private final String[] opcoesMenuEditarCargo = { "Voltar", "Alterar Descricao", "Alterar status gerencial/acesso", 
 	"Alterar Horarios de Acesso" };
 	
 	
@@ -77,52 +77,35 @@ public class ControladorCargo {
     	}
     }
     
-public void alterarDescricao(){
-	   DadosAlteraDescricao dados = tela.alterarDescricao();
-	   Cargo c = findCargoByCodigo(dados.codigo);
-		if (c != null){
-			c.setNome(dados.nome);
-			tela.mostraMensagem("Nome alterado com sucesso para \"" + dados.nome + "\"");
-			} else {
-				tela.mostraMensagem("Nao existe cargo com este codigo (" + dados.codigo + ")");
-			}
-		}
-   
-	public void alterarStatusGerencial(){
-		DadosAlteraStatus dados = tela.alterarStatus(Status.GERENCIAL.toString());
-		Cargo c = findCargoByCodigo(dados.codigo);
-		if (c != null){
-			c.setEhGerencial(dados.status);
-			if (c.ehGerencial()){
-				c.getHorariosPermitidos().clear();
-				//ControladorHorario.getInstance().removerHorariosCargo(c); //gerentes acessam a qualquer momento
-			} else {
-				tela.mostraMensagem("Nao esqueca de atualizar/definir os horarios de acesso");
-			}
-			tela.mostraMensagem("Status definido com sucesso.");
-		} else {
-			tela.mostraMensagem("Nao existe cargo com este codigo (" + dados.codigo + ")");
-		}
-}
-   
-	public void alterarStatusAcesso(){
-		DadosAlteraStatus dados = tela.alterarStatus(Status.ACESSO.toString());
-		Cargo c = findCargoByCodigo(dados.codigo);
-		if (c != null){
-			if (!c.ehGerencial()) {
-				c.setPossuiAcesso(dados.status);
-				if (c.getPossuiAcesso()){
-					tela.mostraMensagem("Nao esqueca de atualizar/definir os horarios de acesso");
-				} else {
-					c.getHorariosPermitidos().clear();
-					//ControladorHorario.getInstance().removerHorariosCargo(c);
-				}
-				tela.mostraMensagem("Status definido com sucesso");
-			}
-		} else {
-			tela.mostraMensagem("Nao existe cargo com este codigo (" + dados.codigo + ")");
-		}
-	}
+    public void alterarDescricao(){
+    	DadosAlteraDescricao dados = tela.alterarDescricao();
+    	Cargo c = findCargoByCodigo(dados.codigo);
+    	if (c != null){
+    		c.setNome(dados.nome);
+    		tela.mostraMensagem("Nome alterado com sucesso para \"" + dados.nome + "\"");
+    	} else {
+    		tela.mostraMensagem("Nao existe cargo com este codigo (" + dados.codigo + ")");
+    	}
+    }
+
+    public void alterarStatus(){
+    	DadosAlteraStatus dados = tela.alterarStatus();
+    	Cargo c = findCargoByCodigo(dados.codigo);
+    	if (c != null){
+    		c.setEhGerencial(dados.statusGerencial);
+    		c.setPossuiAcesso(dados.StatusAcesso);
+
+    		if (c.ehGerencial()){
+    			c.getHorariosPermitidos().clear();
+    		} else if (c.getPossuiAcesso()) {
+    			ControladorHorario.getInstance().editaHorariosCargo(c);
+    		} else {
+    			c.getHorariosPermitidos().clear();
+    		}
+
+    	}
+    }
+
     
     /**
     * Chama a tela para incluir cargo; apos tentativa de inclusao, solicita impressao de mensagem confirmando ou negando a inclusao
@@ -169,15 +152,6 @@ public void alterarDescricao(){
 		return remocaoOK;
 	}
 	
-//	/** 
-//	 * 
-//	 * @return listaCargos, ArrayList com os cargos cadastrados
-//	 */
-//	public ArrayList<Cargo> listarCargos() {
-//		return listaCargos; // retorna para imprimir na tela
-//	}
-	
-	
 	public Cargo findCargoByCodigo(int codigo){
 		Cargo cargo = null;
 		for (Cargo c: listaCargos){
@@ -188,8 +162,6 @@ public void alterarDescricao(){
 		return cargo;
 	}
 
-    
-    // 
 	/**
 	 * Permite editar as informacoes de cargo.
 	 * Opcoes: "Voltar", "Alterar Descricao", "Alterar status gerencial", "Alterar status de acesso", "Alterar Horarios de Acesso" 
@@ -203,15 +175,11 @@ public void alterarDescricao(){
                 alterarDescricao();
                 break;
             case 2:
-                alterarStatusGerencial();
+                alterarStatus();
                 break;
             case 3:
-                alterarStatusAcesso();
-                break;
-            case 4:
                 alterarHorarios();
                 break;
         }
     }
-
 }

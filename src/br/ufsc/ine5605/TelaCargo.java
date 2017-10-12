@@ -22,6 +22,8 @@ public class TelaCargo extends Tela {
 		ArrayList<Horario> horariosPermitidos = new ArrayList<Horario>();
 		boolean respostaOK = false;
 		System.out.println("==== Digite os dados solicitados ====");
+		
+		// Valida entrada de codigo para o cargo
 		do {
 			System.out.println("Digite um codigo para o cargo (numero inteiro positivo): ");
 			codigo = leInteiroPositivo();
@@ -33,9 +35,10 @@ public class TelaCargo extends Tela {
 			}
 		} while (cargoJaExiste);
 
-		System.out.println("Digite um nome para o cargo: ");
-		nome = leitor.nextLine();
-
+		// pergunta o nome para o cargo, segundo regra definida no enum RegraValidacaoNomes
+		nome = perguntaNomeCargo();
+		
+		// Valida digitacao de "s", "S", "n" ou "N" apenas
 		do {
 			respostaOK = false;
 			try {
@@ -49,6 +52,7 @@ public class TelaCargo extends Tela {
 
 		} while (!respostaOK);
 
+		// Valida digitacao de "s", "S", "n" ou "N" apenas
 		if (!ehGerencial) {
 			do {
 				respostaOK = false;
@@ -63,27 +67,11 @@ public class TelaCargo extends Tela {
 
 			} while (!respostaOK);
 
-			do {
-				respostaOK = false;
-				if (possuiAcesso) {
-					System.out.println("Este cargo necessita do cadastro de horario de acesso");
+			if (possuiAcesso) {
+				System.out.println("Este cargo necessita do cadastro de horario de acesso");
+				horariosPermitidos = ControladorHorario.getInstance().iniciaCadastro();
+			}
 
-					try {
-						System.out.println(
-								"Deseja cadastrar horario agora (s/n)? Obs: podera ser alterado posteriormente");
-						if (verificaSN(leitor.nextLine())) {
-							horariosPermitidos = ControladorHorario.getInstance().iniciaCadastro();
-						}
-						respostaOK = true;
-					} catch (Exception e) {
-						System.out.println(e.getMessage());
-						respostaOK = false;
-					}
-				} else {
-					break;
-				}
-
-			} while (!respostaOK);
 		}
 		return new DadosCadastroCargo(codigo, nome, ehGerencial, possuiAcesso, horariosPermitidos);
 
@@ -96,7 +84,7 @@ public class TelaCargo extends Tela {
 	 */
 	public int excluirCargo() {
 		System.out.println("Digite o codigo do cargo a ser excluido (numero inteiro positivo)");
-		return super.leInteiroPositivo();
+		return leInteiroPositivo();
 	}
 	
 	public int alterarHorarios() {
@@ -115,13 +103,14 @@ public class TelaCargo extends Tela {
 		System.out.println("\n=== Cargos Cadastrados ===");
 		for (Cargo c : lista) {
 			System.out.println("\nCodigo: " + c.getCodigo() + "; " + "Nome: " + c.getNome() + "; " + "Cargo Gerencial? "
-					+ converteBooleanSimNao(c.ehGerencial()) + "; " + "Necessita cadastro para acesso? "
-					+ converteBooleanSimNao(c.getPossuiAcesso()) + ".");
+					+ converteBooleanSimNao(c.ehGerencial()) + "; "); // + "Necessita cadastro para acesso? "
+					//+ converteBooleanSimNao(c.getPossuiAcesso()) + ".");
 			if (c.ehGerencial()) {
 				System.out.println("Gerentes podem acessar a qualquer hora.");
 			} else if (!c.getPossuiAcesso()) {
 				System.out.println("Este cargo nao possui permissao de acesso.");
 			} else {
+				System.out.println("Necessita cadastro para acesso? " + converteBooleanSimNao(c.getPossuiAcesso()) + ".");
 				System.out.println("Horarios permitidos para acesso: ");
 				if (!c.getHorariosPermitidos().isEmpty()){
 					ControladorHorario.getInstance().listaHorarios(c);
@@ -155,8 +144,7 @@ public class TelaCargo extends Tela {
 		System.out.println("Digite o codigo do cargo a ser alterado (numero inteiro positivo): ");
 		codigo = leInteiroPositivo();
 
-		System.out.println("Digite a nova descricao para o cargo (nome): ");
-		novoNome = leitor.nextLine();
+		novoNome = perguntaNomeCargo();
 		return new DadosAlteraDescricao(codigo, novoNome);
 	}
 
@@ -169,32 +157,43 @@ public class TelaCargo extends Tela {
 	 *            editado
 	 * @return
 	 */
-	public DadosAlteraStatus alterarStatus(String status) {
+	public DadosAlteraStatus alterarStatus() {
 		int codigo = -1;
-		boolean novoStatus = false;
+		boolean novoStatusGerencial = false;
+		boolean novoStatusAcesso = false;
 		boolean respostaOK = false;
 
 		System.out.println("Digite o codigo do cargo a ser alterado (numero inteiro positivo): ");
 		codigo = leInteiroPositivo();
-
+		
 		do {
 			respostaOK = false;
 			try {
-
-				if (status.equals(Status.GERENCIAL.toString())) {
-					System.out.println("Este cargo sera gerencial (s/n)?");
-				}
-				if (status.equals(Status.ACESSO.toString())) {
-					System.out.println("Este cargo tera acesso (s/n)?");
-				}
-				novoStatus = super.verificaSN(leitor.nextLine());
+				System.out.println("Este cargo sera gerencial (s/n)?");
+				novoStatusGerencial = super.verificaSN(leitor.nextLine());
 				respostaOK = true;
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 				respostaOK = false;
 			}
 		} while (!respostaOK);
-		return new DadosAlteraStatus(codigo, novoStatus);
+
+		do {
+			respostaOK = false;
+			try {
+				if (!novoStatusGerencial){
+					System.out.println("Este cargo tera permissao de acesso (s/n)?");
+					novoStatusAcesso = super.verificaSN(leitor.nextLine());
+				}
+				respostaOK = true;
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				respostaOK = false;
+			}
+
+		} while (!respostaOK);
+
+		return new DadosAlteraStatus(codigo, novoStatusGerencial, novoStatusAcesso);
 	}
 
 	public void mostraMensagem(String mensagem) {
@@ -228,4 +227,21 @@ public class TelaCargo extends Tela {
 		} while (!respostaOK);
 		return opcao;
 	}
+	
+	private String perguntaNomeCargo(){
+		String nome = "";
+		boolean respostaOK = false;
+		do {
+			respostaOK = false;
+			System.out.println("Digite um nome para o cargo: ");
+			nome = leitor.nextLine();
+			if (validaNome(nome, RegraValidacaoNomes.VALIDA_NOME_CARGO.getRegraValidacao())){
+				respostaOK = true;
+			} else {
+				System.out.println(RegraValidacaoNomes.VALIDA_NOME_CARGO.getExplicacaoRegra());
+			}
+		} while (!respostaOK);
+		return nome;
+	}
+	
 }

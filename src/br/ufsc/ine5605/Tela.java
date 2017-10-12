@@ -81,4 +81,14 @@ public abstract class Tela {
 		return opcao;
 	}
 	
+	/**
+	 * Valida um nome (string) de acordo com a regra definida
+	 * @param nome nome que sera validado
+	 * @param regra regra segundo a qual o nome sera validado
+	 * @return "true" ou "false"
+	 */
+	protected boolean validaNome(String nome, String regra) {
+		return nome.matches(regra);
+	}
+	
 }
