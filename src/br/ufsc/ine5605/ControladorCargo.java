@@ -102,10 +102,15 @@ public class ControladorCargo {
 
     		if (c.ehGerencial() || !c.getPossuiAcesso()){
     			c.getHorariosPermitidos().clear();
+    			tela.mostraMensagem("Horarios permitidos, caso existissem, foram apagados");
     		}
-    		
-    		if (!c.ehGerencial() && !statusAcessoAnterior && c.getPossuiAcesso()) { 
-    			ControladorHorario.getInstance().editaHorariosCargo(c);
+
+    		if (!c.ehGerencial() && c.getPossuiAcesso()){
+    			if (!statusAcessoAnterior){
+    				ControladorHorario.getInstance().editaHorariosCargo(c);
+    			} else {
+    				tela.mostraMensagem("Este cargo ja possuia permissao de acesso, continua com horario(s) cadastrado(s) anteriormente");
+    			}
     		}
     	}
     }
