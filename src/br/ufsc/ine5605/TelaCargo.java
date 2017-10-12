@@ -235,10 +235,10 @@ public class TelaCargo extends Tela {
 			respostaOK = false;
 			System.out.println("Digite um nome para o cargo: ");
 			nome = leitor.nextLine();
-			if (validaNome(nome, RegraValidacaoNomes.VALIDA_NOME_CARGO.getRegraValidacao())){
+			if (validaNome(nome, RegrasValidacao.VALIDA_NOME_CARGO.getRegraValidacao())){
 				respostaOK = true;
 			} else {
-				System.out.println(RegraValidacaoNomes.VALIDA_NOME_CARGO.getExplicacaoRegra());
+				System.out.println(RegrasValidacao.VALIDA_NOME_CARGO.getExplicacaoRegra());
 			}
 		} while (!respostaOK);
 		return nome;

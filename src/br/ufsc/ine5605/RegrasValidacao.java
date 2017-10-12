@@ -1,6 +1,6 @@
 package br.ufsc.ine5605;
 
-public enum RegraValidacaoNomes {
+public enum RegrasValidacao {
 	
 	/*
 	 * As regras de validacao podem ser diferentes, e permitem informar como funcionam
@@ -14,7 +14,7 @@ public enum RegraValidacaoNomes {
 	private String regraValidacao;
 	private String explicaoRegra;
 	
-	RegraValidacaoNomes(String regraValidacao, String explicaoRegra){
+	RegrasValidacao(String regraValidacao, String explicaoRegra){
 		this.regraValidacao = regraValidacao;
 		this.explicaoRegra = explicaoRegra;
 	}
