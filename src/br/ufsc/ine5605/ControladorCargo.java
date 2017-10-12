@@ -88,21 +88,25 @@ public class ControladorCargo {
     	}
     }
 
+    /**
+     * Caso o cargo passe a ser gerencial ou a nao possuir acesso, apaga a lista de horarios permitidos.
+     * Caso o cargo passe a ser nao gerencial, e passe a ter acesso, solicita cadastro de horario.
+     */
     public void alterarStatus(){
     	DadosAlteraStatus dados = tela.alterarStatus();
     	Cargo c = findCargoByCodigo(dados.codigo);
     	if (c != null){
+    		boolean statusAcessoAnterior = c.getPossuiAcesso();
     		c.setEhGerencial(dados.statusGerencial);
     		c.setPossuiAcesso(dados.StatusAcesso);
 
-    		if (c.ehGerencial()){
-    			c.getHorariosPermitidos().clear();
-    		} else if (c.getPossuiAcesso()) {
-    			ControladorHorario.getInstance().editaHorariosCargo(c);
-    		} else {
+    		if (c.ehGerencial() || !c.getPossuiAcesso()){
     			c.getHorariosPermitidos().clear();
     		}
-
+    		
+    		if (!c.ehGerencial() && !statusAcessoAnterior && c.getPossuiAcesso()) { 
+    			ControladorHorario.getInstance().editaHorariosCargo(c);
+    		}
     	}
     }
 
