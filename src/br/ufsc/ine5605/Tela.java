@@ -34,6 +34,34 @@ public abstract class Tela {
 		return codigo;
 	}
 	
+	protected int mostraMenu(String[] opcoes) {
+		boolean respostaOK = false;
+		int opcao = 0;
+
+		do {
+			respostaOK = false;
+			try {
+				System.out.println("=== Edicao de Cargos ===");
+				for (int i = 0; i < opcoes.length; i++) {
+					System.out.println("" + i + " - " + opcoes[i]);
+				}
+
+				opcao = leitor.nextInt();
+				if (opcao < 0 || opcao > opcoes.length - 1) {
+					respostaOK = false;
+				} else {
+					respostaOK = true;
+				}
+			} catch (InputMismatchException e) {
+				System.out.println("\nDigite apenas numeros\n");
+				respostaOK = false;
+			}
+			leitor.nextLine(); // limpa o buffer
+
+		} while (!respostaOK);
+		return opcao;
+	}
+	
 	/**
 	 * Solicita a digitacao de um numero inteiro positivo, ate que seja digitado corretamente
 	 * @return

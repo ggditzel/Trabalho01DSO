@@ -20,6 +20,16 @@ public class ControladorFuncionario {
 		tela = new TelaFuncionario();
 	}
 	
+	public void incluirFuncionario(int matricula, String nome, Cargo cargo, String telefone, String dataNascimento, String salario){
+		if (findFuncionarioByMatricula(matricula) == null && findFuncionarioByNome(nome) == null){
+			listaFuncionarios.add(new Funcionario(matricula, nome, cargo, telefone, dataNascimento, salario));
+		}
+		
+		// else chamar tela e dizer que este funcionario ja esta cadastrado
+	}
+	
+	
+	
 	public int menuzao() {
 		int opcao = 0;
 		do {
@@ -81,6 +91,16 @@ public class ControladorFuncionario {
 		Funcionario funcionario = null;
 		for (Funcionario f : listaFuncionarios) {
 			if (f.getMatricula() == matricula) {
+				funcionario = f;
+			}
+		}
+		return funcionario;
+	}
+	
+	public Funcionario findFuncionarioByNome(String nome) {
+		Funcionario funcionario = null;
+		for (Funcionario f : listaFuncionarios) {
+			if (f.getNome().equals()) {
 				funcionario = f;
 			}
 		}
