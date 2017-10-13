@@ -1,11 +1,9 @@
 package br.ufsc.ine5605;
 
-public class TelaFuncionario {
-	package br.ufsc.ine5605;
 
-	public class TelaFuncionario extends Tela {
+public class TelaFuncionario extends Tela {
 
-		public void IncluirFuncionario() {
+	public DadosCadastroFuncionario IncluirFuncionario() {
 			int matricula = -1;
 			String nome;
 			String cargo;
@@ -21,22 +19,21 @@ public class TelaFuncionario {
 			nome = leitor.nextLine();
 			
 			if (!nome.matches("^[A-Z][a-z]+([ ][A-Z][a-z]+)*$")) {
-				System.out.println("Digite apenas o primeiro e último nome do funcionario(Apenas letras, sem acentuação gráfica)")
+				System.out.println("Digite apenas o primeiro e último nome do funcionario(Apenas letras, sem acentuação gráfica)");
 				nome = leitor.nextLine();
 			}
 			
 			System.out.println("selecione um cargo na lista ou digite '0' para cadastrar novo");
 			
-			ControladorCargo.getInstance().getListaCargos().get(index)
-			ControladorCargo.getInstance();
-			TelaCargo.listarCargos(getListaCargos());
 			cargo = leitor.nextLine();
 			
-			if (!cargo.matches([0-1])
+			if (!cargo.matches("[0-ControladorCargo.getInstance().getListaCargos().size()]{1}")){
+				System.out.println("digite um número entre 0 e" + ControladorCargo.getInstance().getListaCargos().size());
+				cargo = leitor.nextLine();
+			}
 			
+			//--Criar cargo caso 0
 			
-			--Leitor.nextLine com .matches [0-num de cargos {1}]
-			--Criar cargo caso 0
 			--selecionar da lista e vincular
 			
 			
@@ -55,5 +52,10 @@ public class TelaFuncionario {
 			}
 			System.out.println("digite o salario do Funcionario");
 			salario = super.leInteiroPositivo();
+
+}
+
+	public void listarFuncionarios() {
+	}
 
 }
