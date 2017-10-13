@@ -85,7 +85,7 @@ public class ControladorHorario {
     			horariosAcesso.add(novo);
             	respostaOK = true;
     		}
-    	}while(!respostaOK);
+    	} while(!respostaOK);
     	return novo;
     }
     
@@ -100,7 +100,9 @@ public class ControladorHorario {
     		horariosCargo.add(cadastrarHorario());
     	} else {
     		int opcao = tela.mostraListaAdicionar(horariosAcesso);
-    		if(opcao == 0) {
+		if(opcao == 0){
+			return;
+		} else if(opcao == horariosAcesso.size() + 1) {
     			horariosCargo.add(cadastrarHorario());
     		} else {
     			horariosCargo.add(horariosAcesso.get(opcao-1));
@@ -136,13 +138,13 @@ public class ControladorHorario {
      */
     public void removerHorariosCargo(ICargo cargo){
     	ArrayList<Horario> horariosCargo = cargo.getHorariosPermitidos();
-		do{	
-			if(horariosCargo.isEmpty()){
+	do{	
+		if(horariosCargo.isEmpty()){
     			tela.mostraAviso("Este cargo nao possui horarios, voce precisa adicionar");
     			adicionarHorariosCargo(cargo);
-    			break;
+   			break;
     		} else {
-    			int opcao = tela.mostraListaRemover(horariosCargo);
+   			int opcao = tela.mostraListaRemover(horariosCargo);
     			if(opcao == 0){
     				break;
     			} else {
@@ -153,7 +155,7 @@ public class ControladorHorario {
     				}
     				tela.mostraAviso("Horario removido com sucesso");
     			}
-    		}
+    		}	
     	}while(true);
     }
     
