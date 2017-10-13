@@ -56,7 +56,8 @@ public class TelaHorario extends Tela{
 	public int mostraListaAdicionar(ArrayList<Horario> lista) {
 		System.out.println("Selecione um horario:");
 		mostraLista(lista);
-		System.out.println("0- Adicionar novo horario");
+		System.out.println("" + (int) (lista.size() + 1) + "- Adicionar novo horario \n" +
+				  "0- Voltar");
 		return super.leInteiroPositivoAte(lista.size()+1);
 	}
 	
@@ -95,7 +96,7 @@ public class TelaHorario extends Tela{
 
 	public int mostraOpcoesEditar() {
 		System.out.println("1- Adicionar horario de acesso \n"
-				 + "2- Remover horario de acesso"
+				 + "2- Remover horario de acesso \n"
 				 + "0- Voltar");
 		return super.leInteiroPositivoAte(2);
 	}
