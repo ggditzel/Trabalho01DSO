@@ -282,7 +282,7 @@ public class ControladorFuncionario {
 		for (int a = 0; a < ControladorCargo.getInstance().getListaCargos().size(); a++) {
 			tela.mostraMensagem("Código :" + (ControladorCargo.getInstance().getListaCargos().get(a).getCodigo()));
 			tela.mostraMensagem("Cargo: " + (ControladorCargo.getInstance().getListaCargos().get(a).getNome()));
-			if (ControladorCargo.getInstance().getListaCargos().get(a).ehGerencial()) {
+			if (ControladorCargo.getInstance().getListaCargos().get(a).getEhGerencial()) {
 				tela.mostraMensagem("CARGO COM ACESSO IRRESTRITO AO FINANCEIRO");
 			}
 			else {
