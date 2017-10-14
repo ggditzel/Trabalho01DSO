@@ -41,7 +41,6 @@ public abstract class Tela {
 		do {
 			respostaOK = false;
 			try {
-				System.out.println("=== Edicao de Cargos ===");
 				for (int i = 0; i < opcoes.length; i++) {
 					System.out.println("" + i + " - " + opcoes[i]);
 				}

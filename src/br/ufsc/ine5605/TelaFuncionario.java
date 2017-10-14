@@ -1,3 +1,6 @@
+package br.ufsc.ine5605;
+
+
 public class TelaFuncionario extends Tela {
 
 	public DadosCadastroFuncionario IncluirFuncionario() {
@@ -8,7 +11,7 @@ public class TelaFuncionario extends Tela {
 			String dataNascimento;
 			int salario;
 			
-			System.out.println("==== Digite os dados solicitados ====");
+			mostraMensagem("==== Digite os dados solicitados ====");
 			
 			matricula = pedeMatricula();
 			nome = pedeNome();
@@ -18,20 +21,37 @@ public class TelaFuncionario extends Tela {
 			
 			
 			
-			System.out.println("Digite o telefone do funcionario(Apenas numeros)");
+			mostraMensagem("Digite o telefone do funcionario(Apenas numeros)");
+			leitor.nextLine();
 			telefone = leitor.nextLine();
-			if(!telefone.matches("^[0-9]${1,}")) {
-				System.out.println("Digite o telefone do funcionario(APENAS NUMEROS)");
-				telefone = leitor.nextLine();
-			}
+			boolean eae = false;
+			do{
+				if(!telefone.matches("^[0-9]+$")) {
 			
-			System.out.println("digite a data de nascimento do funcionario(No formato ddMMaaaa");
+				mostraMensagem("Digite o telefone do funcionario(APENAS NUMEROS)");
+				telefone = leitor.nextLine();
+				}
+				else {
+					eae = true;
+				}
+				
+			}while (!eae);
+			
+			mostraMensagem("digite a data de nascimento do funcionario(No formato ddMMaaaa");
 			dataNascimento = leitor.nextLine();
-			if (!dataNascimento.matches("^[0-9]${8}")){
-				System.out.println("digite a data de nascimento do funcionario(No formato ddMMaaaa");
+			do {
+				eae = false;
+			
+			if (!dataNascimento.matches("^[0-9]{8}$")){
+				mostraMensagem("digite a data de nascimento do funcionario(No formato ddMMaaaa");
 				dataNascimento = leitor.nextLine();
 			}
-			System.out.println("digite o salario do Funcionario");
+				else {
+					eae = true;
+				}
+				}while (!eae);
+			
+			mostraMensagem("digite o salario do Funcionario");
 			salario = leInteiroPositivo();
 			
 			return new DadosCadastroFuncionario(matricula, nome, cargo, telefone, dataNascimento,  salario);
@@ -42,7 +62,7 @@ public class TelaFuncionario extends Tela {
 	private Cargo pedeCargo() {
 		boolean eae = false;
 		Cargo cargotemp = null;
-	 ControladorFuncionario.getInstance().printaListaCargoNomeCodigoHorario();
+		int tamArrayCargo = ControladorCargo.getInstance().getListaCargos().size();
 	 mostraMensagem("Digite o codigo de um dos cargos da lista ou 0 para incluir novo");
 	 do{
 		 int codcarg = leitor.nextInt();
@@ -50,12 +70,14 @@ public class TelaFuncionario extends Tela {
 			 ControladorCargo.getInstance().incluirCargo();
 		 }
 		 
-		 if ((codcarg>0) && (codcarg<(ControladorCargo.getInstance().getListaCargos().size()))){
+		 if ((codcarg>0) && (codcarg<=tamArrayCargo)){
 			 cargotemp = ControladorCargo.getInstance().findCargoByCodigo(codcarg);
 			 eae = true;
 		 }
 		 else {
-			 mostraMensagem("Digite um número entre 0 e"+ ControladorCargo.getInstance().getListaCargos().size());
+			 tamArrayCargo = ControladorCargo.getInstance().getListaCargos().size();
+			 mostraMensagem("Digite um número entre 0 e "+ tamArrayCargo);
+			 
 		 }
 	 }while (!eae);
 	 return cargotemp;
@@ -67,6 +89,7 @@ public class TelaFuncionario extends Tela {
 	public void mostraMensagem(String mensagem) {
 		System.out.println(mensagem);
 	}
+	
 	public int pedeMatricula() {
 		boolean eae = false;
 		int matricula = 0;
@@ -90,6 +113,7 @@ public class TelaFuncionario extends Tela {
 		String nomet = leitor.nextLine();	
 		if (validaNome(nomet, RegrasValidacao.VALIDA_NOME_FUNCIONARIO.getRegraValidacao())) {
 			nome = nomet;	
+			eae = true;
 		}
 		else {
 			mostraMensagem(RegrasValidacao.VALIDA_NOME_FUNCIONARIO.getExplicacaoRegra());
@@ -99,3 +123,4 @@ public class TelaFuncionario extends Tela {
 	}
 
 }
+

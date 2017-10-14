@@ -22,43 +22,43 @@ public class Funcionario {
 		this.numeroAcessosNegados = 0;
 	}
 	public int getMatricula() {
-		return matricula;
+		return this.matricula;
 	}
 	public void setMatricula(int matricula) {
 		this.matricula = matricula;
 	}
 	public String getNome() {
-		return nome;
+		return this.nome;
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
 	public Cargo getCargo() {
-		return cargo;
+		return this.cargo;
 	}
 	public void setCargo(Cargo cargo) {
 		this.cargo = cargo;
 	}
 	public String getTelefone() {
-		return telefone;
+		return this.telefone;
 	}
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
 	public String getDataNascimento() {
-		return dataNascimento;
+		return this.dataNascimento;
 	}
 	public void setDataNascimento(String dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 	public int getSalario() {
-		return salario;
+		return this.salario;
 	}
 	public void setSalario(int salario) {
 		this.salario = salario;
 	}
 	public int getNumeroAcessosNegados() {
-		return numeroAcessosNegados;
+		return this.numeroAcessosNegados;
 	}
 	public void setNumeroAcessosNegados(int numeroAcessosNegados) {
 		this.numeroAcessosNegados = numeroAcessosNegados;
