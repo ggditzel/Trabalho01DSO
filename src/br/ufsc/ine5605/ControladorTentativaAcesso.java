@@ -49,7 +49,7 @@ public class ControladorTentativaAcesso {
 			tentativas.add(new TentativaAcesso(data, hora, matricula, MotivoNegacaoAcesso.ACESSO_BLOQUEADO) );
 			funcionario.setNumeroAcessosNegados(funcionario.getNumeroAcessosNegados() + 1);
 			tela.mostraNegacao(MotivoNegacaoAcesso.ACESSO_BLOQUEADO);
-		} else if(!funcionario.getCargo().ehGerencial() && !hora.estaPresente(funcionario.getCargo().getHorariosPermitidos()) ) {
+		} else if(!funcionario.getCargo().getEhGerencial() && !hora.estaPresente(funcionario.getCargo().getHorariosPermitidos()) ) {
 			tentativas.add(new TentativaAcesso(data, hora, matricula, MotivoNegacaoAcesso.HORARIO_NAO_PERMITIDO) );
 			funcionario.setNumeroAcessosNegados(funcionario.getNumeroAcessosNegados() + 1);
 			tela.mostraNegacao(MotivoNegacaoAcesso.HORARIO_NAO_PERMITIDO);

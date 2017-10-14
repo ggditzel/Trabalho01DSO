@@ -103,9 +103,9 @@ public class TelaCargo extends Tela {
 		System.out.println("\n=== Cargos Cadastrados ===");
 		for (Cargo c : lista) {
 			System.out.println("\nCodigo: " + c.getCodigo() + "; " + "Nome: " + c.getNome() + "; " + "Cargo Gerencial? "
-					+ converteBooleanSimNao(c.ehGerencial()) + "; "); // + "Necessita cadastro para acesso? "
+					+ converteBooleanSimNao(c.getEhGerencial()) + "; "); // + "Necessita cadastro para acesso? "
 					//+ converteBooleanSimNao(c.getPossuiAcesso()) + ".");
-			if (c.ehGerencial()) {
+			if (c.getEhGerencial()) {
 				System.out.println("Gerentes podem acessar a qualquer hora.");
 			} else if (!c.getPossuiAcesso()) {
 				System.out.println("Este cargo nao possui permissao de acesso.");

@@ -5,15 +5,14 @@ import java.util.ArrayList;
 public interface ICargo {
 		
 	public int getCodigo();
-	public void setCodigo(int codigo);
 	public String getNome();
-	public void setNome(String nome);
-	public boolean ehGerencial();
-	public void setEhGerencial(boolean ehGerencial);
+	public boolean getEhGerencial();
 	public boolean getPossuiAcesso();
-	public void setPossuiAcesso(boolean possuiAcesso);
 	public ArrayList<Horario> getHorariosPermitidos();
-	public boolean AdicionarHorarioPermitido(Horario horario);	
-	public boolean RemoverHorarioPermitido(Horario horario);
+
+	public void setCodigo(int codigo);
+	public void setNome(String nome);
+	public void setEhGerencial(boolean ehGerencial);
+	public void setPossuiAcesso(boolean possuiAcesso);
 }
 

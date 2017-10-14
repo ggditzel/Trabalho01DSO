@@ -8,11 +8,11 @@ public class Funcionario {
 	private Cargo cargo;
 	private String telefone;
 	private String dataNascimento;
-	private String salario;
+	private int salario;
 	private int numeroAcessosNegados;
 	
 	
-	public Funcionario(int matricula, String nome, Cargo cargo, String telefone, String dataNascimento, String salario) {
+	public Funcionario(int matricula, String nome, Cargo cargo, String telefone, String dataNascimento, int salario) {
 		this.matricula = matricula;
 		this.nome = nome;
 		this.cargo = cargo;
@@ -51,10 +51,10 @@ public class Funcionario {
 	public void setDataNascimento(String dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
-	public String getSalario() {
+	public int getSalario() {
 		return salario;
 	}
-	public void setSalario(String salario) {
+	public void setSalario(int salario) {
 		this.salario = salario;
 	}
 	public int getNumeroAcessosNegados() {

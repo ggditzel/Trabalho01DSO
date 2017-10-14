@@ -63,11 +63,11 @@ public class ControladorCargo {
      *  que nao seja gerencial e que tenha permissao de acesso (ou seja, se eh um cargo que possua
      *  horarios a serem editados) para entao chamar a tela apropriada de edicao.
      */
-    public void alterarHorarios(){
+    private void alterarHorarios(){
     	int codigo = tela.alterarHorarios();
     	Cargo c = findCargoByCodigo(codigo);
     	if (c != null){
-    		if (!c.ehGerencial() && c.getPossuiAcesso()) {
+    		if (!c.getEhGerencial() && c.getPossuiAcesso()) {
     			ControladorHorario.getInstance().editaHorariosCargo(c);
     		} else {
     			tela.mostraMensagem("Este cargo nao aceita inclusao de horarios");
@@ -77,7 +77,7 @@ public class ControladorCargo {
     	}
     }
     
-    public void alterarDescricao(){
+    private void alterarDescricao(){
     	DadosAlteraDescricao dados = tela.alterarDescricao();
     	Cargo c = findCargoByCodigo(dados.codigo);
     	if (c != null){
@@ -92,20 +92,20 @@ public class ControladorCargo {
      * Caso o cargo passe a ser gerencial ou a nao possuir acesso, apaga a lista de horarios permitidos.
      * Caso o cargo passe a ser nao gerencial, e passe a ter acesso, solicita cadastro de horario.
      */
-    public void alterarStatus(){
+    private void alterarStatus(){
     	DadosAlteraStatus dados = tela.alterarStatus();
     	Cargo c = findCargoByCodigo(dados.codigo);
     	if (c != null){
     		boolean statusAcessoAnterior = c.getPossuiAcesso();
     		c.setEhGerencial(dados.statusGerencial);
-    		c.setPossuiAcesso(dados.StatusAcesso);
+    		c.setPossuiAcesso(dados.statusAcesso);
 
-    		if (c.ehGerencial() || !c.getPossuiAcesso()){
+    		if (c.getEhGerencial() || !c.getPossuiAcesso()){
     			c.getHorariosPermitidos().clear();
     			tela.mostraMensagem("Horarios permitidos, caso existissem, foram apagados");
     		}
 
-    		if (!c.ehGerencial() && c.getPossuiAcesso()){
+    		if (!c.getEhGerencial() && c.getPossuiAcesso()){
     			if (!statusAcessoAnterior){
     				ControladorHorario.getInstance().editaHorariosCargo(c);
     			} else {
@@ -142,7 +142,7 @@ public class ControladorCargo {
 	 * @return boolean indicando sucesso (true) ou fracasso (false)
 	 * @throws Exception Codigo Inexistente, impossivel excluir
 	 */
-	public boolean excluirCargo() {
+    private boolean excluirCargo() {
 		int codigo = tela.excluirCargo();
 		Cargo c = findCargoByCodigo(codigo);
 		boolean remocaoOK = false;

@@ -36,7 +36,7 @@ public class Cargo implements ICargo{
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public boolean ehGerencial() {
+	public boolean getEhGerencial() {
 		return this.ehGerencial;
 	}
 	public void setEhGerencial(boolean ehGerencial) {
@@ -50,36 +50,6 @@ public class Cargo implements ICargo{
 	}
 	public ArrayList<Horario> getHorariosPermitidos() {
 		return horariosPermitidos;
-	}
-	//boolean
-	
-	/**
-	 * Adiciona um horario apenas se o cargo nao for gerencial e se possuir acesso.
-	 * Retorna "true" caso os criterios tenham sido atendidos e o horario tenha
-	 * sido cadastrado com sucesso
-	 */
-	public boolean AdicionarHorarioPermitido(Horario horario) {
-		if (this.ehGerencial || !this.possuiAcesso){
-			return false;
-		} else {
-			this.horariosPermitidos.add(horario);
-			return true;
-		}
-
-	}
-	
-	/**
-	 * Se existir o horario a ser excluido, retorna "true" apos a exclusao, senao "false"
-	 */
-	public boolean RemoverHorarioPermitido(Horario horario) {
-		for (Horario h : horariosPermitidos){
-			if (h.getInicio().equals(horario.getInicio()) && h.getFim().equals(horario.getFim())){
-				horariosPermitidos.remove(horario);
-				return true;				
-			}
-		}
-		return false;
-
 	}
 	
 }
