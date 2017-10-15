@@ -57,7 +57,6 @@ public class ControladorTentativaAcesso {
 			tentativas.add(new TentativaAcessoPermitido(data, hora, matricula));
 			tela.confirmaAcesso();
 		}
-
 	}
 	
 	public void menuRelatorioTentativas(){

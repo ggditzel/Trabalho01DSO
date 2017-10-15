@@ -6,7 +6,8 @@ public class ControladorPrincipal {
 	private final String[] opcoesMenuPrincipal = { "Sair", "Gerenciar Sistema", "Iniciar Terminal de Acesso" };
 
 	// para alterar horarios, apenas dentro das operacoes com cargos
-	private final String[] opcoesGerenciarSistema = { "Voltar", "Operacoes com Cargos", "Operacoes com Funcionarios" };
+	private final String[] opcoesGerenciarSistema = { "Voltar", "Operacoes com Cargos", "Operacoes com Funcionarios",
+														"Relatorios de Acesso"};
 
 	ControladorPrincipal() {
 		tela = new TelaPrincipal();
@@ -24,7 +25,6 @@ public class ControladorPrincipal {
 				break;
 			case 2: // iniciar terminal de acesso
 				iniciarTerminal();
-				break;
 			}
 		} while (opcao != 0);
 	}
@@ -41,6 +41,9 @@ public class ControladorPrincipal {
 				break;
 			case 2: // operacoes com funcionarios
 				ControladorFuncionario.getInstance().mostraMenu();
+				break;
+			case 3: // relatiorios de acesso
+				ControladorTentativaAcesso.getInstance().menuRelatorioTentativas();
 				break;
 			}
 		} while (opcao != 0);
