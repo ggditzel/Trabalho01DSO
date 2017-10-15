@@ -12,9 +12,15 @@ public class TelaFuncionario extends Tela {
 			int salario;
 			
 			mostraMensagem("==== Digite os dados solicitados ====");
-			
 			matricula = pedeMatricula();
 			nome = pedeNome();
+			
+			perguntarCriarCargo();
+			if(ControladorCargo.getInstance().getListaCargos().size() ==0) {
+				mostraMensagem("Ainda ão ha um cargo cadastrado, iniciando criação de novo cargo");
+				ControladorCargo.getInstance().incluirCargo();
+				
+			}
 			cargo = pedeCargo();
 			
 			
@@ -22,14 +28,13 @@ public class TelaFuncionario extends Tela {
 			
 			
 			mostraMensagem("Digite o telefone do funcionario(Apenas numeros)");
-			leitor.nextLine();
-			telefone = leitor.nextLine();
+			
 			boolean eae = false;
 			do{
+				telefone = leitor.nextLine();
 				if(!telefone.matches("^[0-9]+$")) {
 			
 				mostraMensagem("Digite o telefone do funcionario(APENAS NUMEROS)");
-				telefone = leitor.nextLine();
 				}
 				else {
 					eae = true;
@@ -37,7 +42,7 @@ public class TelaFuncionario extends Tela {
 				
 			}while (!eae);
 			
-			mostraMensagem("digite a data de nascimento do funcionario(No formato ddMMaaaa");
+			mostraMensagem("digite a data de nascimento do funcionario(No formato ddMMaaaa) ");
 			dataNascimento = leitor.nextLine();
 			do {
 				eae = false;
@@ -58,28 +63,49 @@ public class TelaFuncionario extends Tela {
 
 }
 
+	private void perguntarCriarCargo()  {
+		mostraMensagem("Deseja criar um novo cargo agora?(S/N)");
+		boolean eaee = false;
+		do {
+			String resposta =leitor.nextLine();
+		
+			try {
+				if(super.verificaSN(resposta)) {
+					ControladorCargo.getInstance().incluirCargo();
+					eaee = true;
+				}
+				else {
+					eaee = true;
+					
+				}
+			} catch (Exception e) {
+				mostraMensagem("Digite apenas 's' ou 'n'");
+				eaee = false;
+			}
+		}while (!eaee);
+			
+			
+	}
 	
 	private Cargo pedeCargo() {
 		boolean eae = false;
 		Cargo cargotemp = null;
-		int tamArrayCargo = ControladorCargo.getInstance().getListaCargos().size();
-	 mostraMensagem("Digite o codigo de um dos cargos da lista ou 0 para incluir novo");
+		
+		ControladorFuncionario.getInstance().printaListaCargoNomeCodigoHorario();
+		
+	 mostraMensagem("Digite o codigo de um dos cargos da lista");
 	 do{
-		 int codcarg = leitor.nextInt();
-		 if (codcarg == 0) {
-			 ControladorCargo.getInstance().incluirCargo();
-		 }
 		 
-		 if ((codcarg>0) && (codcarg<=tamArrayCargo)){
+		 int codcarg = leInteiroPositivo();
+		 if (ControladorCargo.getInstance().findCargoByCodigo(codcarg) != null){
 			 cargotemp = ControladorCargo.getInstance().findCargoByCodigo(codcarg);
 			 eae = true;
 		 }
 		 else {
-			 tamArrayCargo = ControladorCargo.getInstance().getListaCargos().size();
-			 mostraMensagem("Digite um número entre 0 e "+ tamArrayCargo);
-			 
+			 mostraMensagem("Digite o codigo de um dos cargos da lista!");
 		 }
 	 }while (!eae);
+	 
 	 return cargotemp;
 	 
 	 	

@@ -9,8 +9,8 @@ public class ControladorFuncionario {
 	private TelaFuncionario tela;
 
 	/****** OPCOES DO MENU PRINCIPAL ******/
-	private final String[] opcoesMenuPrincipal = { "Voltar", "Listar Funcionarios Cadastrados",
-			"Cadastrar Funcionarios", "Excluir Funcionario", "Alterar Cadastro Funcionario" };
+	private final String[] opcoesMenuPrincipal = { "Voltar", "Listar Funcionarios Cadastrados", "Cadastrar Funcionario",
+			"Excluir Funcionario", "Alterar Cadastro Funcionario" };
 
 	/****** OPCOES DO MENU PARA EDICAO DOS FUNCIONARIOS ******/
 	private final String[] opcoesMenuEditarFuncionario = { "Voltar", "Alterar Matricula", "Alterar Nome",
@@ -38,10 +38,11 @@ public class ControladorFuncionario {
 					funcionario.telefone, funcionario.dataNascimento, funcionario.salario));
 
 			tela.mostraMensagem("Funcionario cadastrado com sucesso.");
-		} else
+		} else {
 			tela.mostraMensagem(
-					"Já existe com esta matrícula e ou com este nome no sistema, cheque a lista e tente novamente");
-		printaListaCargoNomeCodigoHorario();
+					"Já existe cadastro com esta matrícula e ou com este nome no sistema, cheque a lista e tente novamente");
+		}
+
 	}
 
 	/**
@@ -56,7 +57,6 @@ public class ControladorFuncionario {
 				break;
 			case 1:
 				printarFuncionariosCompleto();
-				;
 				break;
 			case 2:
 				incluirFuncionario();
@@ -80,22 +80,35 @@ public class ControladorFuncionario {
 			opcao = tela.mostraMenu(opcoesMenuEditarFuncionario);
 			switch (opcao) {
 			case 0:
-				mostraMenu();
 				break;
 
 			case 1:
 				printarFuncionariosCompleto();
+				boolean eae1 = false;
 				tela.mostraMensagem(
-						"Digite a matricula(vide lista) do funcionario,aperte ENTER, digite a NOVA MATRICULA e aperte ENTER novamente");
-				int matTemp = tela.leInteiroPositivo();
-				if (findFuncionarioByMatricula(matTemp) == null) {
-					tela.mostraMensagem("Esta matrícula não está cadastrada, tente novamente");
-					matTemp = tela.leInteiroPositivo();
-					printarFuncionariosCompleto();
-				} else {
-					alteraMatricula(matTemp);
-					tela.mostraMensagem("Matricula alterada com sucesso");
-				}
+						"Digite a matricula(vide lista) do funcionario cuja matricula sera alterada");
+				int matEnt = 0;
+				int matNov = 0;
+				do {
+					matEnt = tela.leInteiroPositivo();
+					if (findFuncionarioByMatricula(matEnt) == null) {
+						tela.mostraMensagem("Esta matrícula não está cadastrada, tente novamente");
+						printarFuncionariosCompleto();
+					}
+					tela.mostraMensagem("Funcionario de matricula '" + matEnt + "' selecionado, digite a nova matricula");
+					matNov = tela.leInteiroPositivo();
+					if (findFuncionarioByMatricula(matNov) != null) {
+						tela.mostraMensagem(
+								"Este numero de matricula ja esta vinculado a outro cadastro, tente novamente");
+
+					} else {
+						findFuncionarioByMatricula(matEnt).setMatricula(matNov);
+						eae1 = true;
+						tela.mostraMensagem("Matricula alterada com sucesso");
+
+					}
+
+				} while (!eae1);
 				break;
 
 			case 2:
@@ -122,6 +135,7 @@ public class ControladorFuncionario {
 
 					tela.mostraMensagem("Digite o código do cargo da lista");
 					printaListaCargoNomeCodigoHorario();
+
 					int novoCc = tela.leInteiroPositivo();
 					if (ControladorCargo.getInstance().findCargoByCodigo(novoCc) == null) {
 						tela.mostraMensagem("Codigo de cargo invalido, selecione codigo da lista");
@@ -137,67 +151,82 @@ public class ControladorFuncionario {
 				int mat = tela.leInteiroPositivo();
 				eae = false;
 				do {
+					
 					if (findFuncionarioByMatricula(mat) != null) {
 
-						tela.mostraMensagem("Digite o novo telefone do funcionario(Apenas numeros)");
+						tela.mostraMensagem("Digite o novo telefone do funcionario:");
 						String telefone = tela.leitor.nextLine();
-						if (telefone.matches("^[0-9]$+")) {
-							tela.mostraMensagem("Telefone Alterado Com sucesso");
+						if (telefone.matches("^[0-9]+$")) {
+							tela.mostraMensagem("Telefone alterado com sucesso");
 							findFuncionarioByMatricula(mat).setTelefone(telefone);
+							
 							eae = true;
 						}
-
 						else {
 
-							System.out.println("Digite o telefone do funcionario(APENAS NUMEROS)");
-						}
+							System.out.println("DIGITE APENAS NUMEROS");
 					}
-				} while (!eae);
+
+						}
+						else {
+							tela.mostraMensagem("Matricula invalida, cheque a lista e digite novamente");
+							
+							mat = tela.leInteiroPositivo();
+							
+						}
+					}while (!eae);
 				break;
 
 			case 5:
 				printarFuncionariosCompleto();
 				tela.mostraMensagem("Digite a matricula do funcionario cuja Data de Nascimento será alterada");
-				mat = tela.leInteiroPositivo();
+				 mat = tela.leInteiroPositivo();
 				eae = false;
 				do {
+					
 					if (findFuncionarioByMatricula(mat) != null) {
 
-						System.out.println("digite a data de nascimento do funcionario(No formato ddMMaaaa");
+						System.out.println("digite a data de nascimento do funcionario(No formato ddMMaaaa)");
 						String dataNascimento = tela.leitor.nextLine();
-						if (dataNascimento.matches("^[0-9]${8}")) {
-							System.out.println("digite a data de nascimento do funcionario(No formato ddMMaaaa");
-							dataNascimento = tela.leitor.nextLine();
+						if (dataNascimento.matches("^[0-9]{8}$")) {
+
 							findFuncionarioByMatricula(mat).setDataNascimento(dataNascimento);
-							tela.mostraMensagem(
-									formataDataPraPrintar(findFuncionarioByMatricula(mat).getDataNascimento()));
+							tela.mostraMensagem("Data de nascimento alterada para :"
+									+ (formataDataPraPrintar(findFuncionarioByMatricula(mat).getDataNascimento())));
 							eae = true;
 						}
 					} else {
 						tela.mostraMensagem("Digite uma matricula valida");
+						mat = tela.leInteiroPositivo();
 					}
 				} while (!eae);
+				break;
+				
 			case 6:
 				printarFuncionariosCompleto();
 				tela.mostraMensagem("Digite a matricula do funcionario cujo salário será alterado");
 				mat = tela.leInteiroPositivo();
 				eae = false;
 				do {
+					
 					if (findFuncionarioByMatricula(mat) != null) {
 						System.out.println("digite o salario do Funcionario");
 						int salario = tela.leInteiroPositivo();
 						findFuncionarioByMatricula(mat).setSalario(salario);
-						tela.mostraMensagem("Salário alterado para: " + salario + "com sucesso.");
+						tela.mostraMensagem("Salário alterado para: " + salario + " com sucesso.");
 						eae = true;
 					} else {
 						tela.mostraMensagem("Digite uma matricula valida");
+						mat = tela.leInteiroPositivo();
 					}
 
 				} while (!eae);
 
 			}
 		} while (!eae);
+	
 	}
+
 
 	private void alteraNome() {
 
@@ -220,12 +249,6 @@ public class ControladorFuncionario {
 
 	}
 
-	private void alteraMatricula(int matricula) {
-		int matricula2 = tela.leInteiroPositivo();
-
-		findFuncionarioByMatricula(matricula).setMatricula(matricula2);
-	}
-
 	private void alterarCadastroFuncionario() {
 		mostraMenuEd();
 
@@ -233,12 +256,12 @@ public class ControladorFuncionario {
 
 	public void excluirFuncionario() {
 		tela.mostraMensagem("Procure na lista e em seguida digite a Matricula do funcionario que será excluído");
-		printaListaCargoNomeCodigoHorario();
-		int matricula = tela.leitor.nextInt();
+		printarFuncionariosCompleto();
+		int matricula = tela.leInteiroPositivo();
 		if (findFuncionarioByMatricula(matricula) != null) {
 			Funcionario funcionario = findFuncionarioByMatricula(matricula);
 			listaFuncionarios.remove(funcionario);
-			tela.mostraMensagem("Funcionaro de Matricula " + matricula + "foi removido do sistema.");
+			tela.mostraMensagem("Funcionaro de Matricula " + matricula + " foi removido do sistema.");
 		} else
 			tela.mostraMensagem("Não existe Funcionário cadastrado com este número de matrícula");
 	}
@@ -283,11 +306,15 @@ public class ControladorFuncionario {
 	 */
 
 	public void printaListaCargoNomeCodigoHorario() {
+
+		tela.mostraMensagem(
+				"===Lista de Cargos possui " + ControladorCargo.getInstance().getListaCargos().size() + " cargos===");
+
 		for (int a = 0; a < ControladorCargo.getInstance().getListaCargos().size(); a++) {
 			tela.mostraMensagem(
 					"  ---/Código :" + (ControladorCargo.getInstance().getListaCargos().get(a).getCodigo()));
 			tela.mostraMensagem("  ---/Cargo: " + (ControladorCargo.getInstance().getListaCargos().get(a).getNome()));
-			if (ControladorCargo.getInstance().getListaCargos().get(a).ehGerencial()) {
+			if (ControladorCargo.getInstance().getListaCargos().get(a).getEhGerencial()) {
 				tela.mostraMensagem("----CARGO COM ACESSO IRRESTRITO AO FINANCEIRO----");
 			} else {
 				tela.mostraMensagem("Este cargo pode acessar o financeiro durante o intervalo :"
@@ -314,6 +341,10 @@ public class ControladorFuncionario {
 	}
 
 	public void printarFuncionariosCompleto() {
+		if (listaFuncionarios.size() == 0) {
+			tela.mostraMensagem("===Lista de Funcionários vazia===");
+
+		}
 		for (int a = 0; a < listaFuncionarios.size(); a++) {
 			Funcionario fTemp = (listarFuncionarios().get(a));
 			tela.mostraMensagem("---/NOME " + (fTemp.getNome()) + "  ---/MATRICULA :" + (fTemp.getMatricula())
