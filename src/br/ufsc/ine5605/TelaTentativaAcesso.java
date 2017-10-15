@@ -101,7 +101,7 @@ public class TelaTentativaAcesso extends Tela {
 				);
 		
 
-		return leInteiroPositivoAte(3);
+		return leInteiroPositivoAte(7);
 	}
 
 	public void listaTentativas(ArrayList<TentativaAcesso> tentativas) {
