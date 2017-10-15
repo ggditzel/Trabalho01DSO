@@ -89,15 +89,24 @@ public class TelaTentativaAcesso extends Tela {
 
 	public int mostraMenuTentativas() {
 		System.out.println("Escolha uma opcao: ");
-		System.out.println("1- Listar todas as tentativas de acesso negadas");
-		System.out.println("2- Listar tentativas de acesso a partir de uma matricula");
-		System.out.println("3- Listar tentativas de acesso por um motivo");
+		System.out.println(
+				"1- Listar todas as tentativas de acesso\n" +
+				"2- Listar todas as tentativas de acesso negadas\n" +
+				"3- Listar todos os acessos\n" +
+				"4- Listar todos as tentativas de acesso a partir de uma matricula" +
+				"5- Listar tentativas de acesso negadas a partir de uma matricula\n" +
+				"6- Listar os acessos a partir de uma matricula\n" +
+				"7- Listar tentativas de acesso negadas por um motivo\n" +
+				"0- Voltar"
+				);
+		
+
 		return leInteiroPositivoAte(3);
 	}
 
 	public void listaTentativas(ArrayList<TentativaAcesso> tentativas) {
 		if(tentativas.isEmpty()){
-			System.out.println("Nao ha tentativas de acesso negadas");
+			System.out.println("Nao ha tentativas de acesso");
 		} else {
 			for(TentativaAcesso t: tentativas){
 				System.out.println(t.toString());

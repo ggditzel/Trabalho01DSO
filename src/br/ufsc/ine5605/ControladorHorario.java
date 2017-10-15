@@ -32,7 +32,7 @@ public class ControladorHorario {
     		horariosCargo.add(cadastrarHorario());
     	} else {
     		int opcao = tela.mostraListaAdicionarPrimeiroHorario(horariosAcesso);
-    	if(opcao == 0){
+    		if(opcao == 0){
     			horariosCargo.add(cadastrarHorario());
     		} else {
     			horariosCargo.add(horariosAcesso.get(opcao-1));

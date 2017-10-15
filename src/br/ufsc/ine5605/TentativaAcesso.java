@@ -1,18 +1,16 @@
 package br.ufsc.ine5605;
 
 
-public class TentativaAcesso {
-	private String data;
-	private Hora hora;
-	private int matricula;
-	private MotivoNegacaoAcesso motivo;
+public abstract class TentativaAcesso {
+	protected String data;
+	protected Hora hora;
+	protected int matricula;
 	
-	public TentativaAcesso(String data, Hora hora, int matricula,
-			MotivoNegacaoAcesso motivo) {
+	
+	public TentativaAcesso(String data, Hora hora, int matricula) {
 		this.data = data;
 		this.hora = hora;
 		this.matricula = matricula;
-		this.motivo = motivo;
 	}
 	
 	public String getData() {
@@ -33,16 +31,6 @@ public class TentativaAcesso {
 	public void setMatricula(int matricula) {
 		this.matricula = matricula;
 	}
-	public MotivoNegacaoAcesso getMotivo() {
-		return motivo;
-	}
-	public void setMotivo(MotivoNegacaoAcesso motivo) {
-		this.motivo = motivo;
-	}
-	
-	@Override
-	public String toString(){
-		return "" + matricula + " tentou acessar a sala no dia " + data + " as " + hora + " e nao conseguiu. Motivo: " + motivo.getNome();
-	}
+
 	
 }
