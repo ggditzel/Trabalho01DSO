@@ -93,7 +93,7 @@ public class TelaTentativaAcesso extends Tela {
 				"1- Listar todas as tentativas de acesso\n" +
 				"2- Listar todas as tentativas de acesso negadas\n" +
 				"3- Listar todos os acessos\n" +
-				"4- Listar todos as tentativas de acesso a partir de uma matricula" +
+				"4- Listar todos as tentativas de acesso a partir de uma matricula\n" +
 				"5- Listar tentativas de acesso negadas a partir de uma matricula\n" +
 				"6- Listar os acessos a partir de uma matricula\n" +
 				"7- Listar tentativas de acesso negadas por um motivo\n" +
