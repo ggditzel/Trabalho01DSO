@@ -34,6 +34,14 @@ public abstract class Tela {
 		return codigo;
 	}
 	
+	/**
+	 * Recebe um array de String, sendo que cada String do array sera mostrado na tela como opcao de um menu.
+	 * Valida a escolha do usuario, aceitando apenas numeros correspondentes aos indices do array. Caso
+	 * o usuario digite algo diferente de um numero inteiro, trata a excecao e solicita nova digitacao.
+	 * 
+	 * @param opcoes String[]
+	 * @return opcao int que representa o item escolhido do menu
+	 */
 	protected int mostraMenu(String[] opcoes) {
 		boolean respostaOK = false;
 		int opcao = 0;

@@ -100,24 +100,28 @@ public class TelaCargo extends Tela {
 	 * @param lista Lista de cargos a ser mostrada
 	 */
 	public void listarCargos(ArrayList<Cargo> lista) {
-		System.out.println("\n=== Cargos Cadastrados ===");
-		for (Cargo c : lista) {
-			System.out.println("\nCodigo: " + c.getCodigo() + "; " + "Nome: " + c.getNome() + "; " + "Cargo Gerencial? "
-					+ converteBooleanSimNao(c.getEhGerencial()) + "; "); // + "Necessita cadastro para acesso? "
-					//+ converteBooleanSimNao(c.getPossuiAcesso()) + ".");
-			if (c.getEhGerencial()) {
-				System.out.println("Gerentes podem acessar a qualquer hora.");
-			} else if (!c.getPossuiAcesso()) {
-				System.out.println("Este cargo nao possui permissao de acesso.");
-			} else {
-				System.out.println("Necessita cadastro para acesso? " + converteBooleanSimNao(c.getPossuiAcesso()) + ".");
-				System.out.println("Horarios permitidos para acesso: ");
-				if (!c.getHorariosPermitidos().isEmpty()){
-					ControladorHorario.getInstance().listaHorarios(c);
+		if (!lista.isEmpty()) {
+			System.out.println("\n=== Cargos Cadastrados ===");
+			for (Cargo c : lista) {
+				System.out.println("\nCodigo: " + c.getCodigo() + "; " + "Nome: " + c.getNome() + "; " + "Cargo Gerencial? "
+						+ converteBooleanSimNao(c.getEhGerencial()) + "; "); // + "Necessita cadastro para acesso? "
+				//+ converteBooleanSimNao(c.getPossuiAcesso()) + ".");
+				if (c.getEhGerencial()) {
+					System.out.println("Gerentes podem acessar a qualquer hora.");
+				} else if (!c.getPossuiAcesso()) {
+					System.out.println("Este cargo nao possui permissao de acesso.");
 				} else {
-					System.out.println("Esta cargo ainda nao possui horarios de acesso cadastrados");
+					System.out.println("Necessita cadastro para acesso? " + converteBooleanSimNao(c.getPossuiAcesso()) + ".");
+					System.out.println("Horarios permitidos para acesso: ");
+					if (!c.getHorariosPermitidos().isEmpty()){
+						ControladorHorario.getInstance().listaHorarios(c);
+					} else {
+						System.out.println("Esta cargo ainda nao possui horarios de acesso cadastrados");
+					}
 				}
 			}
+		} else {
+			System.out.println("Ainda nao ha cargos cadastrados no sistema");
 		}
 		System.out.println("");
 	}
