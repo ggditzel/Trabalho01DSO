@@ -61,6 +61,8 @@ public class TelaHorario extends Tela{
 		return super.leInteiroPositivoAte(lista.size()+1);
 	}
 	
+	
+	
 	/**
 	 * Solicita a digitacao de uma hora, no formato (hh:mm) ate que seja digitada corretamente
 	 * @return
@@ -99,6 +101,14 @@ public class TelaHorario extends Tela{
 				 + "2- Remover horario de acesso \n"
 				 + "0- Voltar");
 		return super.leInteiroPositivoAte(2);
+	}
+
+	public int mostraListaAdicionarPrimeiroHorario(
+			ArrayList<Horario> lista) {
+		System.out.println("Selecione um horario:");
+		mostraLista(lista);
+		System.out.println("0- Adicionar novo horario \n");
+		return super.leInteiroPositivoAte(lista.size());
 	}
 
 	

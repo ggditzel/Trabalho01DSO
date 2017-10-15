@@ -31,8 +31,8 @@ public class ControladorHorario {
     	if(horariosAcesso.isEmpty()){
     		horariosCargo.add(cadastrarHorario());
     	} else {
-    		int opcao = tela.mostraListaAdicionar(horariosAcesso);
-    		if(opcao == 0) {
+    		int opcao = tela.mostraListaAdicionarPrimeiroHorario(horariosAcesso);
+    	if(opcao == 0){
     			horariosCargo.add(cadastrarHorario());
     		} else {
     			horariosCargo.add(horariosAcesso.get(opcao-1));
@@ -45,10 +45,12 @@ public class ControladorHorario {
     		if(opcao == 1){
     			if(!diferenca(horariosAcesso, horariosCargo).isEmpty()){
     				opcao = tela.mostraListaAdicionar(diferenca(horariosAcesso, horariosCargo));
-    				if(opcao == 0) {
+    				if(opcao == 0){
+    					break;
+    				}else if(opcao == diferenca(horariosAcesso, horariosCargo).size() + 1) {
     					horariosCargo.add(cadastrarHorario());
     				} else {
-    					horariosCargo.add(horariosAcesso.get(opcao-1));
+    					horariosCargo.add(diferenca(horariosAcesso, horariosCargo).get(opcao-1));
     				}
     			} else {
     				horariosCargo.add(cadastrarHorario());
